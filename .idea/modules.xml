@@ -3,10 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/client/collectionManager.client.main.iml" filepath="$PROJECT_DIR$/.idea/modules/client/collectionManager.client.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/client/collectionManager.client.test.iml" filepath="$PROJECT_DIR$/.idea/modules/client/collectionManager.client.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/collectionManager.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/collectionManager.common.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/collectionManager.common.test.iml" filepath="$PROJECT_DIR$/.idea/modules/common/collectionManager.common.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/server/collectionManager.server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/server/collectionManager.server.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server/collectionManager.server.test.iml" filepath="$PROJECT_DIR$/.idea/modules/server/collectionManager.server.test.iml" />
     </modules>
   </component>
 </project>
