@@ -9,10 +9,8 @@
         </processorPath>
         <module name="collectionManager.client.main" />
         <module name="collectionManager.common.main" />
-        <module name="collectionManager.server.test" />
         <module name="collectionManager.client.test" />
         <module name="collectionManager.common.test" />
-        <module name="collectionManager.server.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17">

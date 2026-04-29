@@ -1,5 +1,5 @@
 rootProject.name = "collectionManager"
 
 include("common")
-include("server")
+// include("server")
 include("client")

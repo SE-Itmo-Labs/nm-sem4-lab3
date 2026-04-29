@@ -5,11 +5,11 @@
 package com.ssnagin.collectionmanager.collection.model;
 
 import com.ssnagin.collectionmanager.description.annotations.Description;
+import com.ssnagin.collectionmanager.object.Entity;
 import com.ssnagin.collectionmanager.validation.annotations.MaxValue;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * @author DEVELOPER

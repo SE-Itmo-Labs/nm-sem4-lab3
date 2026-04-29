@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.ssnagin.collectionmanager.collection.model;
+package com.ssnagin.collectionmanager.object;
 
 import com.ssnagin.collectionmanager.collection.interfaces.Describable;
 import com.ssnagin.collectionmanager.collection.interfaces.Randomize;

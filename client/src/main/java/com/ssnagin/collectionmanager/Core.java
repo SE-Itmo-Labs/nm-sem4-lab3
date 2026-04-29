@@ -46,13 +46,13 @@ public class Core extends AbstractCore {
 
     protected WindowManager windowManager;
 
-    public static final String LOGO = String.format(" ▗▄▄▖ ▄▄▄  █ █ ▗▞▀▚▖▗▞▀▘   ■  ▄  ▄▄▄  ▄▄▄▄  ▗▖  ▗▖▗▞▀▜▌▄▄▄▄  ▗▞▀▜▌     ▗▞▀▚▖ ▄▄▄ \n" +
-            "▐▌   █   █ █ █ ▐▛▀▀▘▝▚▄▖▗▄▟▙▄▖▄ █   █ █   █ ▐▛▚▞▜▌▝▚▄▟▌█   █ ▝▚▄▟▌     ▐▛▀▀▘█    \n" +
-            "▐▌   ▀▄▄▄▀ █ █ ▝▚▄▄▖      ▐▌  █ ▀▄▄▄▀ █   █ ▐▌  ▐▌     █   █           ▝▚▄▄▖█    \n" +
-            "▝▚▄▄▖      █ █            ▐▌  █             ▐▌  ▐▌                 ▗▄▖           \n" +
-            "                          ▐▌                                      ▐▌ ▐▌          \n" +
-            "                                                                   ▝▀▜▌          \n" +
-            "  ver. %s | github.com/ssnagin/java-sem2-lab6.git              ▐▙▄▞▘        \n\n", Config.Core.VERSION);
+    public static final String LOGO = String.format("                                                                                             \n" + "                                                                                             \n" +
+            "▄▄ ▄▄ ▄▄  ▄▄▄▄ ▄▄ ▄▄ ▄▄   ▄▄  ▄▄▄ ▄▄▄▄▄▄      ▄▄ ▄▄ ▄▄   ▄▄▄▄▄▄ ▄▄ ▄▄   ▄▄  ▄▄▄ ▄▄▄▄▄▄ ▄▄▄▄▄ \n" +
+            "██▄██ ██ ██▀▀▀ ██▄██ ██▀▄▀██ ██▀██  ██        ██ ██ ██     ██   ██ ██▀▄▀██ ██▀██  ██   ██▄▄  \n" +
+            " ▀█▀  ██ ▀████ ██ ██ ██   ██ ██▀██  ██  ▄▄▄▄▄ ▀███▀ ██▄▄▄  ██   ██ ██   ██ ██▀██  ██   ██▄▄▄ \n" +
+            "                                                                                             \n" +
+            "  ver. %s | github.com/SE-Itmo-Labs/nm-sem4-lab3.git                          \n\n", Config.Core.VERSION);
+
 
     @SneakyThrows
     public Core() {
@@ -66,7 +66,6 @@ public class Core extends AbstractCore {
         this.scriptManager = ScriptManager.getInstance();
         this.windowManager = WindowManager.getInstance();
 
-//        this.networking = new Networking("192.168.10.80", Config.Networking.PORT);
         this.networking = new Networking("localhost", Config.Networking.PORT);
 
         // init CLI commands
@@ -79,28 +78,28 @@ public class Core extends AbstractCore {
     }
 
     private void registerCommands() {
+
         this.commandManager.register(new CommandExit("exit", "exit this useless piece of masterpiece"));
         this.commandManager.register(new CommandHelp("help", "display help on available commands", commandManager));
-        this.commandManager.register(new CommandExecuteScript("execute_script", "some description here", commandManager, scriptManager));
-        this.commandManager.register(new CommandAdd("add", "add an object to collection", networking, scriptManager));
-        this.commandManager.register(new CommandShow("show", "show collection's elements", networking));
-        this.commandManager.register(new CommandClear("clear", "clear collection elements", networking));
-        this.commandManager.register(new CommandUpdate("update", "update <id> | update values of selected collection by id", networking, scriptManager));
-        this.commandManager.register(new CommandRemoveById("remove_by_id", "remove_by_id <id> | removes an element with selected id", networking));
-        this.commandManager.register(new CommandAddIfMin("add_if_min", "adds an element into collection if it is the lowest element in it", scriptManager, networking));
-        this.commandManager.register(new CommandHistory("history", "shows last 9 executed commands", commandManager));
-        this.commandManager.register(new CommandCountByNumberOfParticipants("count_by_number_of_participants", "count_by_number_of_participants <numberOfParticipants>| shows the amount of fields with the same amount of participants", networking));
-        this.commandManager.register(new CommandRandom("random", "random <amount> | adds to collection <amount> random elements", networking));
 
-        this.commandManager.register(new CommandLogin("login", "Log in into the system", networking, scriptManager));
-        this.commandManager.register(new CommandLogout("logout", "Log out from the system", networking));
-        this.commandManager.register(new CommandRegister("register", "Register in the system", networking, scriptManager));
+        this.commandManager.register(new CommandIntegral("integral", "use rectangles method", scriptManager));
+
+        //this.commandManager.register(new CommandExecuteScript("execute_script", "some description here", commandManager, scriptManager));
+        this.commandManager.register(new CommandAdd("add", "add an object to collection", networking, scriptManager));
+        //this.commandManager.register(new CommandShow("show", "show collection's elements", networking));
+        //this.commandManager.register(new CommandClear("clear", "clear collection elements", networking));
+        //this.commandManager.register(new CommandUpdate("update", "update <id> | update values of selected collection by id", networking, scriptManager));
+        //this.commandManager.register(new CommandRemoveById("remove_by_id", "remove_by_id <id> | removes an element with selected id", networking));
+        //this.commandManager.register(new CommandAddIfMin("add_if_min", "adds an element into collection if it is the lowest element in it", scriptManager, networking));
+        this.commandManager.register(new CommandHistory("history", "shows last 9 executed commands", commandManager));
+        //this.commandManager.register(new CommandCountByNumberOfParticipants("count_by_number_of_participants", "count_by_number_of_participants <numberOfParticipants>| shows the amount of fields with the same amount of participants", networking));
+        //this.commandManager.register(new CommandRandom("random", "random <amount> | adds to collection <amount> random elements", networking));
+
+        //this.commandManager.register(new CommandLogin("login", "Log in into the system", networking, scriptManager));
+        //this.commandManager.register(new CommandLogout("logout", "Log out from the system", networking));
+        //this.commandManager.register(new CommandRegister("register", "Register in the system", networking, scriptManager));
 
         this.commandManager.register(new CommandShowGUI("gui", "show / hide gui", windowManager));
-
-        // this.commandManager.register(new CommandRemoveLower("remove_lower", "removes elements that are lower than given", collectionManager, scriptManager));
-        // this.commandManager.register(new CommandGroupCountingByCreationDate("group_counting_by_creation_date", "groups collection elements by creation date", collectionManager));
-        // this.commandManager.register(new CommandPrintDescending("print_descending", "show collection's elements in reversed order", collectionManager));
     }
 
     private void registerGUIWindows() {

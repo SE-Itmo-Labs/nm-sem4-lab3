@@ -6,6 +6,7 @@ package com.ssnagin.collectionmanager.collection.model;
 
 import com.ssnagin.collectionmanager.collection.generators.RandomEnumGenerator;
 import com.ssnagin.collectionmanager.description.annotations.Description;
+import com.ssnagin.collectionmanager.object.Entity;
 import com.ssnagin.collectionmanager.validation.annotations.NotEmpty;
 import com.ssnagin.collectionmanager.validation.annotations.NotNull;
 import com.ssnagin.collectionmanager.validation.annotations.PositiveNumber;

@@ -2,6 +2,8 @@ package com.ssnagin.collectionmanager.reflection;
 
 import com.ssnagin.collectionmanager.console.Console;
 import com.ssnagin.collectionmanager.description.annotations.Description;
+import com.ssnagin.collectionmanager.validation.ValidationManager;
+import org.apache.commons.lang3.ClassUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -58,7 +60,7 @@ public final class Reflections {
             Object value = Reflections.parseField(field.getType(), scanner);
 
             // КОСТЫЛЬ!!!
-            // ValidationManager.getInstance().validateField(value, field);
+            ValidationManager.getInstance().validateField(value, field);
 
             Reflections.setFieldValue(instance, value);
         }
@@ -139,9 +141,13 @@ public final class Reflections {
     public static java.lang.reflect.Method findSetterByParameterName(Class<?> clazz, Class<?> parameterType) {
         for (java.lang.reflect.Method method : clazz.getMethods()) {
             if (method.getName().startsWith("set") &&
-                    method.getParameterCount() == 1 &&
-                    method.getParameterTypes()[0].equals(parameterType)) {
-                return method;
+                    method.getParameterCount() == 1) {
+                Class<?> methodParamType = method.getParameterTypes()[0];
+
+                // Use ClassUtils for correct primitive check (primitive <-> wrapper)
+                if (ClassUtils.isAssignable(parameterType, methodParamType)) {
+                    return method;
+                }
             }
         }
         return null;
@@ -208,10 +214,10 @@ public final class Reflections {
         parsers.put(Integer.class, Integer::parseInt);
         parsers.put(long.class, Long::parseLong);
         parsers.put(Long.class, Long::parseLong);
-        parsers.put(float.class, Float::parseFloat);
-        parsers.put(Float.class, Float::parseFloat);
-        parsers.put(double.class, Double::parseDouble);
-        parsers.put(Double.class, Double::parseDouble);
+        parsers.put(double.class, s -> Double.parseDouble(s.replace(',', '.')));
+        parsers.put(Double.class, s -> Double.parseDouble(s.replace(',', '.')));
+        parsers.put(float.class, s -> Float.parseFloat(s.replace(',', '.')));
+        parsers.put(Float.class, s -> Float.parseFloat(s.replace(',', '.')));
         parsers.put(byte.class, Byte::parseByte);
         parsers.put(Byte.class, Byte::parseByte);
         parsers.put(boolean.class, Boolean::parseBoolean);

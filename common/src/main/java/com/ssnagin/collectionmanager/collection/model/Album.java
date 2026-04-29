@@ -5,6 +5,7 @@
 package com.ssnagin.collectionmanager.collection.model;
 
 import com.ssnagin.collectionmanager.description.annotations.Description;
+import com.ssnagin.collectionmanager.object.Entity;
 import com.ssnagin.collectionmanager.validation.annotations.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

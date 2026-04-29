@@ -23,6 +23,9 @@ dependencies {
 
     implementation("org.openjfx:javafx-controls:17.0.12")
     implementation("org.openjfx:javafx-fxml:17.0.12")
+
+    // KOSTIL VALIDATOR
+    //implementation("org.hibernate.validator:hibernate-validator:9.1.0")
 }
 
 javafx {
