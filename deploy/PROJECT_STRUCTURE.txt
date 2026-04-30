@@ -257,6 +257,9 @@ nm-sem4-lab3/
 │   │                       │   └── LangLocales.java
 │   │                       ├── math
 │   │                       │   └── lab3
+│   │                       │       ├── Func1D.java
+│   │                       │       ├── Func2D.java
+│   │                       │       ├── Functions.java
 │   │                       │       ├── Lab3Form.java
 │   │                       │       └── MathematicsLab3.java
 │   │                       ├── networking
@@ -1692,7 +1695,10 @@ import com.ssnagin.collectionmanager.applicationstatus.ApplicationStatus;
 import com.ssnagin.collectionmanager.commands.UserCommand;
 import com.ssnagin.collectionmanager.console.ClientConsole;
 import com.ssnagin.collectionmanager.inputparser.ParsedString;
+import com.ssnagin.collectionmanager.math.lab3.Func1D;
+import com.ssnagin.collectionmanager.math.lab3.Functions;
 import com.ssnagin.collectionmanager.math.lab3.Lab3Form;
+import com.ssnagin.collectionmanager.math.lab3.MathematicsLab3;
 import com.ssnagin.collectionmanager.reflection.Reflections;
 import com.ssnagin.collectionmanager.scripts.ScriptManager;
 
@@ -1706,6 +1712,8 @@ public class CommandIntegral extends UserCommand {
     private ScriptManager scriptManager;
 
     protected TreeSet<String> commandSet = new TreeSet<>();
+    protected TreeSet<String> functionsSet = new TreeSet<>();
+
 
     public CommandIntegral(String name, String description, ScriptManager scriptManager) {
         super(name, description);
@@ -1717,6 +1725,15 @@ public class CommandIntegral extends UserCommand {
         commandSet.add("middleRectangles");
         commandSet.add("trapezoid");
         commandSet.add("simpsons");
+
+        functionsSet.add("x^2 + 3x - 5");
+        functionsSet.add("cos(x)");
+        functionsSet.add("e^x");
+        functionsSet.add("sqrt(x^2 + 1)");
+        functionsSet.add("|x| + 2");
+        functionsSet.add("1 / sqrt(|x|)");
+        functionsSet.add("1 / x^2");
+        functionsSet.add("1 / |x-1|^(2/3)");
     }
 
     @Override
@@ -1733,6 +1750,7 @@ public class CommandIntegral extends UserCommand {
         }
 
         String command = parsedString.getArguments().get(0);
+        double result = 0;
 
         if (!commandSet.contains(command)) {
 
@@ -1742,23 +1760,62 @@ public class CommandIntegral extends UserCommand {
             return ApplicationStatus.RUNNING;
         }
 
+        String functionName;
+        Func1D function;
+
+        try {
+            ClientConsole.print("Введите функцию (доступные см в usage): \n       | ");
+            functionName = scanner.nextLine();
+
+            function = switch (functionName) {
+                case "x^2 + 3x - 5" -> Functions.FUNC_1;
+                case "cos(x)" -> Functions.FUNC_2;
+                case "e^x" -> Functions.FUNC_3;
+                case "sqrt(x^2 + 1)" -> Functions.FUNC_4;
+                case "|x| + 2" -> Functions.FUNC_5;
+                case "1 / sqrt(|x|)" -> Functions.FUNC_6;
+                case "1 / x^2" -> Functions.FUNC_7;
+                case "1 / |x-1|^(2/3)" -> Functions.FUNC_8;
+                default -> throw new IllegalArgumentException("Неизвестная функция: " + functionName);
+            };
+
+        } catch (IllegalArgumentException ex) {
+            ClientConsole.error(ex.toString());
+            return ApplicationStatus.RUNNING;
+        }
+
         try {
             Lab3Form form = Reflections.parseModel(Lab3Form.class, scanner);
 /*
-            if (command.equals("leftRectangles")) {
-                form
-            }
-
+            switch (command) {
+                case "leftRectangles":
+                    result = MathematicsLab3.leftRectangles(function, form.getXStart(), form.getXEnd(), form.getK());
+                    break;
+                    case "rightRectangles":
+                        result = MathematicsLab3.rightRectangles(function, form.getXStart(), form.getXEnd(), form.getK());
+                        break;
  */
+            return integrate(command, function, form.getXStart(), form.getXEnd(), form.getEpsilon());
+
         } catch (NoSuchMethodException | InstantiationException |
                  IllegalAccessException | IllegalArgumentException |
                  InvocationTargetException ex) {
             ClientConsole.error(ex.toString());
         }
 
-
-        showUsage(parsedString);
         return ApplicationStatus.RUNNING;
+    }
+
+    protected static ApplicationStatus integrate(String method, Func1D function, double x_start, double x_end, double epsilon) {
+
+        if (x_start >= x_end) {
+            ClientConsole.error("Недопустимые границы, левая больше или равна правой");
+            return ApplicationStatus.RUNNING;
+        }
+
+        return ApplicationStatus.RUNNING;
+
+        // mostly defined ?
     }
 
     @Override
@@ -1770,6 +1827,12 @@ public class CommandIntegral extends UserCommand {
 
         for (String command : commandSet) {
             ClientConsole.print(command + " ");
+        }
+
+        ClientConsole.print("Avalilable functions: \n");
+
+        for (String command : functionsSet) {
+            ClientConsole.println(command);
         }
 
         ClientConsole.println("\n");
@@ -6765,6 +6828,262 @@ System.out.println(welcomeInRussian); // "Привет!"
  */
 
 
+common/src/main/java/com/ssnagin/collectionmanager/math/lab3/Func1D.java
+
+package com.ssnagin.collectionmanager.math.lab3;
+
+public interface Func1D {
+    double apply(double x);
+
+    double derivative(double x);
+
+    double secondDerivative(double x);
+
+    String description();
+}
+
+
+common/src/main/java/com/ssnagin/collectionmanager/math/lab3/Func2D.java
+
+package com.ssnagin.collectionmanager.math.lab3;
+
+public interface Func2D {
+
+    String name();
+
+    double phiSysX(double x, double y);
+    double phiSysY(double x, double y);
+    double fSys1(double x, double y);
+    double fSys2(double x, double y);
+
+    double df1dx(double x, double y);
+    double df1dy(double x, double y);
+    double df2dx(double x, double y);
+    double df2dy(double x, double y);
+} 
+
+
+common/src/main/java/com/ssnagin/collectionmanager/math/lab3/Functions.java
+
+package com.ssnagin.collectionmanager.math.lab3;
+
+import java.util.Map;
+
+public class Functions {
+
+    /* f(x) = x^2 + 3x - 5 */
+    public static final Func1D FUNC_1 = new Func1D() {
+        @Override
+        public double apply(double x) {
+            return x * x + 3 * x - 5;
+        }
+
+        // No method required
+        @Override
+        public double derivative(double x) {
+            return 0;
+        }
+
+        // No method required
+        @Override
+        public double secondDerivative(double x) {
+            return 0;
+        }
+
+        @Override
+        public String description() {
+            return "x^2 + 3x - 5";
+        }
+    };
+
+    // cos(x)
+    public static final Func1D FUNC_2 = new Func1D() {
+        @Override
+        public double apply(double x) {
+            return Math.cos(x);
+        }
+
+        // No method required
+        @Override
+        public double derivative(double x) {
+            return 0;
+        }
+
+        // No method required
+        @Override
+        public double secondDerivative(double x) {
+            return 0;
+        }
+
+        @Override
+        public String description() {
+            return "cos(x)";
+        }
+    };
+
+    // e^x
+    public static final Func1D FUNC_3 = new Func1D() {
+        @Override
+        public double apply(double x) {
+            return Math.exp(x);
+        }
+
+        // No method required
+        @Override
+        public double derivative(double x) {
+            return 0;
+        }
+
+        // No method required
+        @Override
+        public double secondDerivative(double x) {
+            return 0;
+        }
+
+        @Override
+        public String description() {
+            return "e^x";
+        }
+    };
+
+    // sqrt(x^2 + 1)
+    public static final Func1D FUNC_4 = new Func1D() {
+        @Override
+        public double apply(double x) {
+            return Math.sqrt(x * x + 1);
+        }
+
+        // No method required
+        @Override
+        public double derivative(double x) {
+            return 0;
+        }
+
+        // No method required
+        @Override
+        public double secondDerivative(double x) {
+            return 0;
+        }
+
+        @Override
+        public String description() {
+            return "sqrt(x^2 + 1)";
+        }
+    };
+
+    // |x| + 2
+    public static final Func1D FUNC_5 = new Func1D() {
+        @Override
+        public double apply(double x) {
+            return Math.abs(x) + 2;
+        }
+
+        // No method required
+        @Override
+        public double derivative(double x) {
+            return 0;
+        }
+
+        // No method required
+        @Override
+        public double secondDerivative(double x) {
+            return 0;
+        }
+
+        @Override
+        public String description() {
+            return "|x| + 2";
+        }
+    };
+
+    // 1 / sqrt(|x|)
+    public static final Func1D FUNC_6 = new Func1D() {
+        @Override
+        public double apply(double x) {
+            return 1.0 / Math.sqrt(Math.abs(x));
+        }
+
+        // No method required
+        @Override
+        public double derivative(double x) {
+            return 0;
+        }
+
+        // No method required
+        @Override
+        public double secondDerivative(double x) {
+            return 0;
+        }
+
+        @Override
+        public String description() {
+            return "1 / sqrt(|x|)";
+        }
+    };
+
+    // 1 / x^2
+    public static final Func1D FUNC_7 = new Func1D() {
+        @Override
+        public double apply(double x) {
+            return 1.0 / (x * x);
+        }
+
+        // No method required
+        @Override
+        public double derivative(double x) {
+            return 0;
+        }
+
+        // No method required
+        @Override
+        public double secondDerivative(double x) {
+            return 0;
+        }
+
+        @Override
+        public String description() {
+            return "1 / x^2";
+        }
+    };
+
+    // 1 / |x-1|^(2/3)
+    public static final Func1D FUNC_8 = new Func1D() {
+        @Override
+        public double apply(double x) {
+            return 1.0 / Math.pow(Math.abs(x - 1), 2.0 / 3.0);
+        }
+
+        // No method required
+        @Override
+        public double derivative(double x) {
+            return 0;
+        }
+
+        // No method required
+        @Override
+        public double secondDerivative(double x) {
+            return 0;
+        }
+
+        @Override
+        public String description() {
+            return "1 / |x-1|^(2/3)";
+        }
+    };
+}
+
+/*
+        functionsSet.add("x^2 + 3x - 5");
+        functionsSet.add("cos(x)");
+        functionsSet.add("e^x");
+        functionsSet.add("sqrt(x^2 + 1)");
+        functionsSet.add("|x| + 2");
+        functionsSet.add("1 / sqrt(|x|)");
+        functionsSet.add("1 / x^2");
+        functionsSet.add("1 / |x-1|^(2/3)");
+ */
+
+
 common/src/main/java/com/ssnagin/collectionmanager/math/lab3/Lab3Form.java
 
 package com.ssnagin.collectionmanager.math.lab3;
@@ -6803,15 +7122,15 @@ public class Lab3Form extends Entity<Lab3Form> {
     @NotEmpty
     @PositiveNumber
     @Description(
-            name = "k",
-            description = "Разбиение"
+            name = "epsilon",
+            description = "Точность (пожалуйста, укажите до 0.001)"
     )
-    protected long k;
+    protected long epsilon;
 
-    public Lab3Form(double xStart, double xEnd, long k) {
+    public Lab3Form(double xStart, double xEnd, long epsilon) {
         setXStart(xStart);
         setXEnd(xEnd);
-        setK(k);
+        setEpsilon(epsilon);
     }
 
     public Lab3Form() {
@@ -6837,24 +7156,50 @@ package com.ssnagin.collectionmanager.math.lab3;
 
 public class MathematicsLab3 {
 
-    public static double leftRectangles(double a, double b, double n) {
-        return 0;
-    }
-
-    public static double righttRectangles(double a, double b, double n) {
-        return 0;
-    }
-
-    public static double middleRectangles(double a, double b, double n) {
-        return 0;
-    }
-
-    public static double trapezoid(double a, double b, double n) {
-        return 0;
+    public static double trapezoid(Func1D function, double a, double b, double n) {
+        double h = (b - a) / n;
+        double sum = (function.apply(a) + function.apply(b)) / 2.0;
+        for (int i = 0; i < n; i++) {
+            sum += function.apply(a + i * h);
+        }
+        return h * sum;
     }
 
     public static double simpsons(double a, double b, double n) {
         return 0;
+    }
+
+    public static double middleRectangles(Func1D function, double a, double b, double n) {
+        double h = (b - a) / n;
+
+        double sum = 0;
+        for (int i = 1; i <= n; i++) {
+            sum += function.apply(a + (i - 0.5) * h);
+        }
+
+        return h * sum;
+    }
+
+    public static double leftRectangles(Func1D function, double a, double b, double n) {
+        double h = (b - a) / n;
+
+        double S = 0;
+        for (int i = 0; i < n; i++) {
+            S += function.apply(a + i * h);
+        }
+
+        return h * S;
+    }
+
+    public static double rightRectangles(Func1D function, double a, double b, double n) {
+        double h = (b - a) / n;
+
+        double sum = 0;
+        for (int i = 1; i <= n; i++) {
+            sum += function.apply(a + i * h);
+        }
+
+        return h * sum;
     }
 }
 
@@ -7397,6 +7742,8 @@ package com.ssnagin.collectionmanager.reflection;
 
 import com.ssnagin.collectionmanager.console.Console;
 import com.ssnagin.collectionmanager.description.annotations.Description;
+import com.ssnagin.collectionmanager.validation.ValidationManager;
+import org.apache.commons.lang3.ClassUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -7453,7 +7800,7 @@ public final class Reflections {
             Object value = Reflections.parseField(field.getType(), scanner);
 
             // КОСТЫЛЬ!!!
-            // ValidationManager.getInstance().validateField(value, field);
+            ValidationManager.getInstance().validateField(value, field);
 
             Reflections.setFieldValue(instance, value);
         }
@@ -7534,9 +7881,13 @@ public final class Reflections {
     public static java.lang.reflect.Method findSetterByParameterName(Class<?> clazz, Class<?> parameterType) {
         for (java.lang.reflect.Method method : clazz.getMethods()) {
             if (method.getName().startsWith("set") &&
-                    method.getParameterCount() == 1 &&
-                    method.getParameterTypes()[0].equals(parameterType)) {
-                return method;
+                    method.getParameterCount() == 1) {
+                Class<?> methodParamType = method.getParameterTypes()[0];
+
+                // Use ClassUtils for correct primitive check (primitive <-> wrapper)
+                if (ClassUtils.isAssignable(parameterType, methodParamType)) {
+                    return method;
+                }
             }
         }
         return null;
@@ -7603,10 +7954,10 @@ public final class Reflections {
         parsers.put(Integer.class, Integer::parseInt);
         parsers.put(long.class, Long::parseLong);
         parsers.put(Long.class, Long::parseLong);
-        parsers.put(float.class, Float::parseFloat);
-        parsers.put(Float.class, Float::parseFloat);
-        parsers.put(double.class, Double::parseDouble);
-        parsers.put(Double.class, Double::parseDouble);
+        parsers.put(double.class, s -> Double.parseDouble(s.replace(',', '.')));
+        parsers.put(Double.class, s -> Double.parseDouble(s.replace(',', '.')));
+        parsers.put(float.class, s -> Float.parseFloat(s.replace(',', '.')));
+        parsers.put(Float.class, s -> Float.parseFloat(s.replace(',', '.')));
         parsers.put(byte.class, Byte::parseByte);
         parsers.put(Byte.class, Byte::parseByte);
         parsers.put(boolean.class, Boolean::parseBoolean);

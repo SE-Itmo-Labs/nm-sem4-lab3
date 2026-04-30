@@ -34,15 +34,15 @@ public class Lab3Form extends Entity<Lab3Form> {
     @NotEmpty
     @PositiveNumber
     @Description(
-            name = "k",
-            description = "Разбиение"
+            name = "epsilon",
+            description = "Точность (пожалуйста, укажите до 0.001)"
     )
-    protected long k;
+    protected long epsilon;
 
-    public Lab3Form(double xStart, double xEnd, long k) {
+    public Lab3Form(double xStart, double xEnd, long epsilon) {
         setXStart(xStart);
         setXEnd(xEnd);
-        setK(k);
+        setEpsilon(epsilon);
     }
 
     public Lab3Form() {
