@@ -2,12 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.ssnagin.collectionmanager.commands.commands;
+package com.ssnagin.collectionmanager.commands.commands.legacy;
 
 import com.ssnagin.collectionmanager.applicationstatus.ApplicationStatus;
 import com.ssnagin.collectionmanager.commands.UserCommand;
 import com.ssnagin.collectionmanager.console.ClientConsole;
-import com.ssnagin.collectionmanager.console.Console;
 import com.ssnagin.collectionmanager.gui.window.Window;
 import com.ssnagin.collectionmanager.gui.window.WindowManager;
 import com.ssnagin.collectionmanager.inputparser.ParsedString;

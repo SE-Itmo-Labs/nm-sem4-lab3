@@ -1,24 +1,11 @@
-package com.ssnagin.collectionmanager.commands.commands;
+package com.ssnagin.collectionmanager.commands.commands.legacy;
 
 import com.ssnagin.collectionmanager.applicationstatus.ApplicationStatus;
 import com.ssnagin.collectionmanager.commands.UserNetworkCommand;
 import com.ssnagin.collectionmanager.console.ClientConsole;
-import com.ssnagin.collectionmanager.console.Console;
 import com.ssnagin.collectionmanager.events.EventType;
 import com.ssnagin.collectionmanager.inputparser.ParsedString;
 import com.ssnagin.collectionmanager.networking.Networking;
-import com.ssnagin.collectionmanager.networking.data.client.ClientRequest;
-import com.ssnagin.collectionmanager.networking.data.server.ServerResponse;
-import com.ssnagin.collectionmanager.networking.wrappers.SessionClientRequest;
-import com.ssnagin.collectionmanager.reflection.Reflections;
-import com.ssnagin.collectionmanager.scripts.ScriptManager;
-import com.ssnagin.collectionmanager.session.SessionKeyManager;
-import com.ssnagin.collectionmanager.user.objects.InternalUser;
-
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.SocketTimeoutException;
-import java.util.Scanner;
 
 public class CommandLogout extends UserNetworkCommand {
 

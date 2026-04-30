@@ -24,7 +24,7 @@ public class CommandHelp extends UserCommand {
 
     protected CommandManager commandManager;
 
-    private String temporaryCreatedHeadMessage = "CollectionManager is a nice tool though.\nHere are available commands:\n";
+    private String temporaryCreatedHeadMessage = "VICHMAT ULTIMATE is a nice tool though.\nHere are available commands:\n";
 
     public CommandHelp(String name, String description, CommandManager commandManager) {
         super(name, description);

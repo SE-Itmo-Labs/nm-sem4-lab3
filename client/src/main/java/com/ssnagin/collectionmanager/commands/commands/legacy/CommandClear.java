@@ -1,4 +1,8 @@
-package com.ssnagin.collectionmanager.commands.commands;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.ssnagin.collectionmanager.commands.commands.legacy;
 
 import com.ssnagin.collectionmanager.applicationstatus.ApplicationStatus;
 import com.ssnagin.collectionmanager.commands.UserNetworkCommand;
@@ -12,10 +16,14 @@ import com.ssnagin.collectionmanager.networking.wrappers.SessionClientRequest;
 
 import java.io.IOException;
 
-public class CommandRandom extends UserNetworkCommand {
+/**
+ * Throws when other commands does not exist. The only one unregistered command!
+ *
+ * @author developer
+ */
+public class CommandClear extends UserNetworkCommand {
 
-
-    public CommandRandom(String name, String description, Networking networking) {
+    public CommandClear(String name, String description, Networking networking) {
         super(name, description, networking);
     }
 
@@ -26,23 +34,15 @@ public class CommandRandom extends UserNetworkCommand {
         if (applicationStatus != ApplicationStatus.RUNNING) return applicationStatus;
 
         try {
-            long id;
-            // Try to parse Integer
-            id = Long.parseLong(parsedString.getArguments().get(0));
-
             ServerResponse response = this.networking.sendClientRequest(
-                    new SessionClientRequest(new ClientRequest(parsedString, id), sessionKeyManager.getSessionKey())
+                    new SessionClientRequest(new ClientRequest(parsedString), sessionKeyManager.getSessionKey())
             );
 
-            ClientConsole.separatePrint(response.getResponseStatus(), "SERVER");
-            ClientConsole.separatePrint(response.getMessage(), "SERVER");
+            ClientConsole.separatePrint(response.getData() + " " + response.getMessage(), "SERVER");
 
+            // Кидаем event на обновление данных таблицы
             eventManager.publish(EventType.COLLECTION_DATA_CHANGED.toString(), null);
-        } catch (NumberFormatException ex) {
-            ClientConsole.log("Wrong number format");
-            return ApplicationStatus.RUNNING;
-        } catch (IndexOutOfBoundsException ex) {
-            return this.showUsage(parsedString);
+
         } catch (IOException | ClassNotFoundException e) {
             ClientConsole.error(e.toString());
         }

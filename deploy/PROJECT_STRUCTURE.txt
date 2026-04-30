@@ -11513,7 +11513,7 @@ server/src/main/java/com/ssnagin/collectionmanager/database/DatabaseCredentials.
 package com.ssnagin.collectionmanager.database;
 
 
-import com.ssnagin.collectionmanager.commands.commands.CommandLogin;
+import com.ssnagin.collectionmanager.commands.commands.legacy.CommandLogin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.apache.commons.cli.*;

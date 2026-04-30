@@ -136,17 +136,21 @@ public class CommandIntegral extends UserCommand {
             return ApplicationStatus.RUNNING;
         }
 
-        // 1. Поиск особенностей
-        List<Double> singularities = weirdDots(function, xStart, xEnd);
+
+
+
+        List<Double> weirdDots = weirdDots(function, xStart, xEnd);
         List<Double> activePoles = new ArrayList<>();
 
-        for (Double pole : singularities) {
+        for (Double pole : weirdDots) {
             if (pole >= xStart - 1e-7 && pole <= xEnd + 1e-7) {
                 activePoles.add(pole);
             }
         }
 
-        // 2. Если особенностей нет — запускаем обычное интегрирование
+
+
+
         if (activePoles.isEmpty()) {
             IntegrationResult result = integrateRungeSafe(method, function, xStart, xEnd, epsilon);
             ClientConsole.log("Результат: " + result.value);
@@ -156,9 +160,11 @@ public class CommandIntegral extends UserCommand {
             return ApplicationStatus.RUNNING;
         }
 
-        ClientConsole.log("Найдены особенности: " + activePoles.size() + " (" + singularities.size() + ") ");
+        ClientConsole.log("Найдены особенности: " + activePoles.size() + " (" + weirdDots.size() + ") ");
 
-        // 3. Обрабатываем каждую особенность
+
+
+
         List<String> messages = new ArrayList<>();
         List<double[]> currentIntervals = new ArrayList<>();
         currentIntervals.add(new double[]{xStart, xEnd});
@@ -167,7 +173,7 @@ public class CommandIntegral extends UserCommand {
             boolean isAtA = Math.abs(pole - xStart) < 1e-6;
             boolean isAtB = Math.abs(pole - xEnd) < 1e-6;
 
-            // === ГРАНИЧНЫЙ ПОЛЮС ===
+            // приколы на границах
             if (isAtA || isAtB) {
                 ImproperCheckResult improper = checkImproperIntegral(function, xStart, xEnd);
                 if (improper.convergent) {
@@ -181,9 +187,11 @@ public class CommandIntegral extends UserCommand {
                 return ApplicationStatus.RUNNING;
             }
 
-            // === ВНУТРЕННИЙ ПОЛЮС ===
+            // internal pole (xStart < pole < xEnd)
             if (isCauchyPrincipalValuePoint(function, pole)) {
-                // Ищем интервал, содержащий полюс
+
+
+                // Search for interval containing pole
                 for (int idx = 0; idx < currentIntervals.size(); idx++) {
                     double[] interval = currentIntervals.get(idx);
                     Double intA = interval[0], intB = interval[1];
@@ -218,7 +226,7 @@ public class CommandIntegral extends UserCommand {
             }
         }
 
-        // 4. Суммируем интегралы по оставшимся интервалам
+        // Sum integrals of remaining intervals
         Double totalValue = 0.0;
         int totalN = 0;
         Double maxError = 0.0;
@@ -240,7 +248,7 @@ public class CommandIntegral extends UserCommand {
             maxError = Math.max(maxError, ans.error);
         }
 
-        // 5. Вывод результата
+
         String finalMsg = messages.isEmpty() ? "Успешно" : String.join(";\n", messages);
         ClientConsole.log("Результат: " + totalValue);
         ClientConsole.log("Погрешность: " + String.format("%.2e", maxError));
@@ -454,8 +462,8 @@ public class CommandIntegral extends UserCommand {
     }
 
     private static class ImproperCheckResult {
-        final boolean convergent; // сходится ли интеграл
-        final Double singularPoint; // точка разрыва: a, b, или null
+        final boolean convergent;
+        final Double singularPoint; // singular at: a, b, or null
 
         ImproperCheckResult(boolean convergent, Double singularPoint) {
             this.convergent = convergent;
@@ -466,14 +474,15 @@ public class CommandIntegral extends UserCommand {
     private static ImproperCheckResult checkImproperIntegral(Func1D f, Double a, Double b) {
         final Double sigma = 1e-9;
 
-        // проверка a
+        // check a
         Double testY = f.safeApply(a + 1e-7);
         if (Double.isNaN(testY) || Double.isInfinite(testY) || Math.abs(testY) > 10.0) {
-            // Вычисляем площадь "далеко" и "близко" к разрыву
+            // S "far" and "near" are close to singularity
+
             Double areaFar = safeTestIntegrate(f, a + 0.001, a + 0.1);
             Double areaNear = safeTestIntegrate(f, a + sigma, a + 0.001);
 
-            // Если обе площади конечны и "близкая" не слишком больше "далёкой"
+            // If two S are finite (limited) and near one is not greater than far one
             if (Double.isFinite(areaFar) && Double.isFinite(areaNear)) {
                 if (areaNear < areaFar * 20.0) {
                     return new ImproperCheckResult(true, a);
@@ -481,7 +490,7 @@ public class CommandIntegral extends UserCommand {
             }
         }
 
-        // проверка b
+        // check b
         Double testYb = f.safeApply(b - 1e-7);
         if (Double.isNaN(testYb) || Double.isInfinite(testYb) || Math.abs(testYb) > 10.0) {
             Double areaFar = safeTestIntegrate(f, b - 0.1, b - 0.001);
@@ -494,16 +503,15 @@ public class CommandIntegral extends UserCommand {
             }
         }
 
-        // Нет сходящегося несобственного интеграла на границах
         return new ImproperCheckResult(false, null);
     }
 
     private static int getMethodOrder(String method) {
         return switch (method.toLowerCase()) {
             case "leftrectangles", "rightrectangles", "middlerectangles" -> 2; // прямоугольники: ошибка ~1/n²
-            case "trapezoid" -> 2;  // трапеции: ошибка ~1/n²
-            case "simpsons" -> 4;   // Симпсон: ошибка ~1/n⁴
-            default -> 2;           // по умолчанию считаем 2
+            case "trapezoid" -> 2;  // trapezoid: ~1/n^2
+            case "simpsons" -> 4;   // simpson ~1/n^4
+            default -> 2;           // 2
         };
     }
 
@@ -512,7 +520,7 @@ public class CommandIntegral extends UserCommand {
             case "leftrectangles" -> MathematicsLab3.leftRectangles(f, a, b, n);
             case "rightrectangles" -> MathematicsLab3.rightRectangles(f, a, b, n);
             case "middlerectangles" -> MathematicsLab3.middleRectangles(f, a, b, n);
-            case "simpsons" -> MathematicsLab3.simpsons(f, a, b, n); // если реализован
+            case "simpsons" -> MathematicsLab3.simpsons(f, a, b, n);
             default -> MathematicsLab3.trapezoid(f, a, b, n);
         };
     }
@@ -532,10 +540,6 @@ public class CommandIntegral extends UserCommand {
     }
 
     private static IntegrationResult integrateRungeSafe(String method, Func1D f, Double a, Double b, Double eps) {
-
-        if (a >= b) {
-            return new IntegrationResult(0.0, 0, 0.0, "Недопустимые границы");
-        }
 
         int n = 4;  // start interval amount
         Double i0 = calculateByMethodName(method, f, a, b, n / 2);
