@@ -44,12 +44,12 @@ public class MathematicsLab3 {
     public static double leftRectangles(Func1D function, double a, double b, double n) {
         double h = (b - a) / n;
 
-        double S = 0;
+        double sum = 0;
         for (int i = 0; i < n; i++) {
-            S += function.apply(a + i * h);
+            sum += function.apply(a + i * h);
         }
 
-        return h * S;
+        return h * sum;
     }
 
     public static double rightRectangles(Func1D function, double a, double b, double n) {

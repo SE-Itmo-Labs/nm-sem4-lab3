@@ -20,7 +20,7 @@ public class Lab3Form extends Entity<Lab3Form> {
             name = "xStart",
             description = "Start x (левая граница интервала)"
     )
-    protected double xStart;
+    public Double xStart;
 
     @NotNull
     @NotEmpty
@@ -28,7 +28,7 @@ public class Lab3Form extends Entity<Lab3Form> {
             name = "xEnd",
             description = "End x (правая граница интервала)"
     )
-    protected double xEnd;
+    public Double xEnd;
 
     @NotNull
     @NotEmpty
@@ -37,16 +37,28 @@ public class Lab3Form extends Entity<Lab3Form> {
             name = "epsilon",
             description = "Точность (пожалуйста, укажите до 0.001)"
     )
-    protected long epsilon;
+    public Double epsilon;
 
-    public Lab3Form(double xStart, double xEnd, long epsilon) {
+    public void setEpsilon(double epsilon) {
+        this.epsilon = epsilon;
+    }
+
+    public void setXStart(double xStart) {
+        this.xStart = xStart;
+    }
+
+    public void setXEnd(double xEnd) {
+        this.xEnd = xEnd;
+    }
+
+    public Lab3Form(Double xStart, Double xEnd, Double epsilon) {
         setXStart(xStart);
         setXEnd(xEnd);
         setEpsilon(epsilon);
     }
 
     public Lab3Form() {
-        this(0,0,0);
+        this(0.0,0.0,0.0);
     }
 
     @Override
@@ -57,5 +69,10 @@ public class Lab3Form extends Entity<Lab3Form> {
     @Override
     public Lab3Form random() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Lab3Form{xStart=" + xStart + ", xEnd=" + xEnd + ", epsilon=" + epsilon + "}";
     }
 }

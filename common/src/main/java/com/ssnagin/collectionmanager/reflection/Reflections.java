@@ -62,7 +62,7 @@ public final class Reflections {
             // КОСТЫЛЬ!!!
             ValidationManager.getInstance().validateField(value, field);
 
-            Reflections.setFieldValue(instance, value);
+            Reflections.setFieldValue(instance, field, value);
         }
 
         return instance;
@@ -162,16 +162,23 @@ public final class Reflections {
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
-    public static void setFieldValue(Object instance, Object value)
+    public static void setFieldValue(Object instance, Field field, Object value)
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
-        Class<?> setterClazz = instance.getClass();
+        // Строим имя сеттера: fieldName -> setFieldName
+        String fieldName = field.getName();
+        String setterName = "set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
 
-        java.lang.reflect.Method setter = Reflections.findSetterByParameterName(setterClazz, value.getClass());
+        // Ищем метод с точным именем и типом параметра
+        Class<?> fieldType = field.getType();
+        Class<?> searchType = fieldType.isPrimitive() ? fieldType :
+                (fieldType == Double.class ? double.class :
+                        fieldType == Integer.class ? int.class :
+                                fieldType == Long.class ? long.class :
+                                        fieldType == Float.class ? float.class :
+                                                fieldType == Boolean.class ? boolean.class : fieldType);
 
-
-
-        // exception here 
+        java.lang.reflect.Method setter = instance.getClass().getMethod(setterName, searchType);
         setter.invoke(instance, value);
     }
 

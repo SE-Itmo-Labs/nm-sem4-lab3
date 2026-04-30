@@ -60,7 +60,6 @@ public class CommandIntegral extends UserCommand {
         }
 
         String command = parsedString.getArguments().get(0);
-        double result = 0;
 
         if (!commandSet.contains(command)) {
 
@@ -96,15 +95,9 @@ public class CommandIntegral extends UserCommand {
 
         try {
             Lab3Form form = Reflections.parseModel(Lab3Form.class, scanner);
-/*
-            switch (command) {
-                case "leftRectangles":
-                    result = MathematicsLab3.leftRectangles(function, form.getXStart(), form.getXEnd(), form.getK());
-                    break;
-                    case "rightRectangles":
-                        result = MathematicsLab3.rightRectangles(function, form.getXStart(), form.getXEnd(), form.getK());
-                        break;
- */
+
+            ClientConsole.log(form);
+
             return integrate(command, function, form.getXStart(), form.getXEnd(), form.getEpsilon());
 
         } catch (NoSuchMethodException | InstantiationException |
@@ -116,65 +109,186 @@ public class CommandIntegral extends UserCommand {
         return ApplicationStatus.RUNNING;
     }
 
-    protected static ApplicationStatus integrate(String method, Func1D function, double x_start, double x_end, double epsilon) {
+    protected static ApplicationStatus integrate(String method, Func1D function, Double xStart, Double xEnd, Double epsilon) {
 
-        if (x_start >= x_end) {
-            ClientConsole.error("Недопустимые границы, левая больше или равна правой");
+        if ((xStart * 1000) % 1.0 != 0.0 || (xEnd * 1000) % 1.0 != 0.0 || xStart > 1000 || xEnd > 1000 || xStart < -1000 ||  xEnd < -1000) {
+            ClientConsole.error("Сделайте xStart и xEnd от -1000 до 1000 и 3 знака после запятой");
             return ApplicationStatus.RUNNING;
         }
 
-        if (!definedArea(function, x_start, x_end)) {
+        if (xStart >= xEnd) {
+            ClientConsole.error("Недопустимые границы, левая больше или равна правой " + xStart + " " + xEnd);
+            return ApplicationStatus.RUNNING;
+        }
+
+        if (epsilon >= 1 || epsilon < 0.001 || (epsilon * 1000) % 1.0 != 0.0) {
+            ClientConsole.error("Сделайте epsilon от 0.001 до 0.999 и 3 знака после запятой");
+            return ApplicationStatus.RUNNING;
+        }
+
+        if (Math.abs(xEnd - xStart) >= 1000) {
+            ClientConsole.error("Я конечно могу ошибаться, но мне страшно на таких значениях запускать эту программу. Сделайте меньше delta x: " + xStart + ", " + xEnd);
+            return ApplicationStatus.RUNNING;
+        }
+
+        if (!definedArea(function, xStart, xEnd)) {
             ClientConsole.error("В слишком многих промежутках функция не определена");
             return ApplicationStatus.RUNNING;
         }
 
-        List<Double> singularities = weirdDots(function, x_start, x_end);
+        // 1. Поиск особенностей
+        List<Double> singularities = weirdDots(function, xStart, xEnd);
+        List<Double> activePoles = new ArrayList<>();
 
+        for (Double pole : singularities) {
+            if (pole >= xStart - 1e-7 && pole <= xEnd + 1e-7) {
+                activePoles.add(pole);
+            }
+        }
 
+        // 2. Если особенностей нет — запускаем обычное интегрирование
+        if (activePoles.isEmpty()) {
+            IntegrationResult result = integrateRungeSafe(method, function, xStart, xEnd, epsilon);
+            ClientConsole.log("Результат: " + result.value);
+            ClientConsole.log("Погрешность: " + String.format("%.2e", result.error));
+            ClientConsole.log("Шаги: " + result.n);
+            ClientConsole.log("Статус: " + result.message);
+            return ApplicationStatus.RUNNING;
+        }
+
+        ClientConsole.log("Найдены особенности: " + activePoles.size() + " (" + singularities.size() + ") ");
+
+        // 3. Обрабатываем каждую особенность
+        List<String> messages = new ArrayList<>();
+        List<double[]> currentIntervals = new ArrayList<>();
+        currentIntervals.add(new double[]{xStart, xEnd});
+
+        for (Double pole : activePoles) {
+            boolean isAtA = Math.abs(pole - xStart) < 1e-6;
+            boolean isAtB = Math.abs(pole - xEnd) < 1e-6;
+
+            // === ГРАНИЧНЫЙ ПОЛЮС ===
+            if (isAtA || isAtB) {
+                ImproperCheckResult improper = checkImproperIntegral(function, xStart, xEnd);
+                if (improper.convergent) {
+                    IntegrationResult result = integrateImproper(method, function, xStart, xEnd, pole, epsilon);
+                    ClientConsole.log("Результат: " + result.value);
+                    ClientConsole.log(result.message);
+                    return ApplicationStatus.RUNNING;
+                }
+                ClientConsole.error("Интеграл не существует (расходится в граничной точке " +
+                        String.format("%.4f", pole) + ")");
+                return ApplicationStatus.RUNNING;
+            }
+
+            // === ВНУТРЕННИЙ ПОЛЮС ===
+            if (isCauchyPrincipalValuePoint(function, pole)) {
+                // Ищем интервал, содержащий полюс
+                for (int idx = 0; idx < currentIntervals.size(); idx++) {
+                    double[] interval = currentIntervals.get(idx);
+                    Double intA = interval[0], intB = interval[1];
+
+                    if (pole > intA - 1e-6 && pole < intB + 1e-6) {
+                        Double leftDist = pole - intA;
+                        Double rightDist = intB - pole;
+                        Double d = Math.min(leftDist, rightDist);
+
+                        Double zeroedStart = pole - d;
+                        Double zeroedEnd = pole + d;
+
+                        currentIntervals.remove(idx);
+                        messages.add("Главное значение: занулен участок [" +
+                                String.format("%.3f", zeroedStart) + ", " +
+                                String.format("%.3f", zeroedEnd) + "] вокруг " +
+                                String.format("%.3f", pole));
+
+                        if (leftDist > rightDist + 1e-6) {
+                            currentIntervals.add(idx, new double[]{intA, zeroedStart});
+                        }
+                        if (rightDist > leftDist + 1e-6) {
+                            currentIntervals.add(idx, new double[]{zeroedEnd, intB});
+                        }
+                        break;
+                    }
+                }
+            } else {
+                ClientConsole.error("Интеграл не существует (неинтегрируемый разрыв 2-го рода в точке " +
+                        String.format("%.4f", pole) + ")");
+                return ApplicationStatus.RUNNING;
+            }
+        }
+
+        // 4. Суммируем интегралы по оставшимся интервалам
+        Double totalValue = 0.0;
+        int totalN = 0;
+        Double maxError = 0.0;
+
+        for (double[] interval : currentIntervals) {
+            Double start = interval[0], end = interval[1];
+            if (end - start < 1e-8) continue;
+
+            IntegrationResult ans = integrateRungeSafe(method, function, start, end, epsilon);
+
+            if (Double.isNaN(ans.value) || Double.isInfinite(ans.value) || ans.error > epsilon * 100) {
+                ClientConsole.error("Интеграл не существует (расходится на участке [" +
+                        String.format("%.3f", start) + ", " + String.format("%.3f", end) + "])");
+                return ApplicationStatus.RUNNING;
+            }
+
+            totalValue += ans.value;
+            totalN += ans.n;
+            maxError = Math.max(maxError, ans.error);
+        }
+
+        // 5. Вывод результата
+        String finalMsg = messages.isEmpty() ? "Успешно" : String.join(";\n", messages);
+        ClientConsole.log("Результат: " + totalValue);
+        ClientConsole.log("Погрешность: " + String.format("%.2e", maxError));
+        ClientConsole.log("Сообщение: " + finalMsg);
 
         return ApplicationStatus.RUNNING;
     }
 
-    public static boolean definedArea(Func1D f, double a, double b) {
+    public static boolean definedArea(Func1D f, Double a, Double b) {
 
         int steps = 400;
-        double dx = (b - a) / steps;
+        Double dx = (b - a) / steps;
         int badCount = 0;
 
         for (int i = 0; i <= steps; i++) {
 
-            double x = a + i * dx;
-            double y = f.safeApply(x);
+            Double x = a + i * dx;
+            Double y = f.safeApply(x);
             if (Double.isNaN(y) || Double.isInfinite(y)) {
                 badCount++;
             }
 
         }
 
-        double badRatio = (double) badCount / steps;
+        Double badRatio = (double) badCount / steps;
 
         ClientConsole.log("definedArea : " + (1 - badRatio) * 100 + "% (" + badRatio*100 + "%)");
 
         return badRatio <= 0.35;
     }
 
-    private static double refinePole(Func1D f, double left, double right) {
-        double l = Math.max(left, left); // coerceAtLeast
-        double r = right;
+    private static Double refinePole(Func1D f, Double left, Double right) {
+        Double l = Math.max(left, left); // coerceAtLeast
+        Double r = right;
 
         if (r - l < 1e-14) {
             return (l + r) / 2.0;
         }
 
-        double bestPos = (l + r) / 2.0;
-        double bestAbs = 0.0;
+        Double bestPos = (l + r) / 2.0;
+        Double bestAbs = 0.0;
 
         for (int iter = 0; iter < 200; iter++) {
-            double m1 = l + (r - l) / 3.0;
-            double m2 = r - (r - l) / 3.0;
+            Double m1 = l + (r - l) / 3.0;
+            Double m2 = r - (r - l) / 3.0;
 
-            double v1 = f.apply(m1);
-            double v2 = f.apply(m2);
+            Double v1 = f.apply(m1);
+            Double v2 = f.apply(m2);
 
             if (v1 > bestAbs) {
                 bestAbs = v1;
@@ -196,16 +310,16 @@ public class CommandIntegral extends UserCommand {
         r = Math.min(bestPos + (right - left) * 0.08, right);
 
         for (int iter = 0; iter < 100; iter++) {
-            double m = (l + r) / 2.0;
-            double vm = f.apply(m);
+            Double m = (l + r) / 2.0;
+            Double vm = f.apply(m);
 
             if (vm > bestAbs) {
                 bestAbs = vm;
                 bestPos = m;
             }
 
-            double leftTest = f.apply(m - (r - l) * 0.1);
-            double rightTest = f.apply(m + (r - l) * 0.1);
+            Double leftTest = f.apply(m - (r - l) * 0.1);
+            Double rightTest = f.apply(m + (r - l) * 0.1);
 
             if (leftTest > rightTest) {
                 r = m;
@@ -217,18 +331,18 @@ public class CommandIntegral extends UserCommand {
         return bestPos;
     }
 
-    public static List<Double> weirdDots(Func1D f, double a, double b) {
+    public static List<Double> weirdDots(Func1D f, Double a, Double b) {
         List<Double> singularities = new ArrayList<>();
         int steps = 50_000;
-        double dx = (b - a) / steps;
-        double radius = 0.0001;
+        Double dx = (b - a) / steps;
+        Double radius = 0.0001;
 
-        double prevX = a;
-        double prevY = f.apply(a);
+        Double prevX = a;
+        Double prevY = f.apply(a);
 
         for (int i = 0; i <= steps; i++) {
-            double x = a + i * dx;
-            double y = f.apply(x);
+            Double x = a + i * dx;
+            Double y = f.apply(x);
 
             boolean foundPotentialPole = clarifyWeirdDot(y, prevY);
 
@@ -236,19 +350,19 @@ public class CommandIntegral extends UserCommand {
 
                 // Clarify the coordinate in [prevX-2dx, x+2dx]
 
-                double searchLeft = Math.max(prevX - dx * 2, a);
-                double searchRight = Math.min(x + dx * 2, b);
+                Double searchLeft = Math.max(prevX - dx * 2, a);
+                Double searchRight = Math.min(x + dx * 2, b);
 
-                double refined = refinePole(f, searchLeft, searchRight);
+                Double refined = refinePole(f, searchLeft, searchRight);
 
-                double rounded = Math.round(refined * 1e8) / 1e8;
+                Double rounded = Math.round(refined * 1e8) / 1e8;
 
                 if (Math.abs(rounded) < 1e-9)
                     rounded = 0.0;
 
                 boolean alreadyExists = false;
 
-                for (double existing : singularities) {
+                for (Double existing : singularities) {
                     if (Math.abs(existing - rounded) < radius) {
                         alreadyExists = true;
                         break;
@@ -268,7 +382,7 @@ public class CommandIntegral extends UserCommand {
         return singularities;
     }
 
-    private static boolean clarifyWeirdDot(double y, double prevY) {
+    private static boolean clarifyWeirdDot(Double y, Double prevY) {
         boolean foundPotentialPole = false;
 
         // inf or undefined value
@@ -288,15 +402,15 @@ public class CommandIntegral extends UserCommand {
         return foundPotentialPole;
     }
 
-    private static boolean isCauchyPrincipalValuePoint(Func1D f, double s) {
+    private static boolean isCauchyPrincipalValuePoint(Func1D f, Double s) {
         int amount = 0;
         // Тестовые расстояния от точки разрыва
         double[] testPoints = {0.1, 0.05, 0.02, 0.01, 0.005};
 
-        for (double h : testPoints) {
+        for (Double h : testPoints) {
 
-            double left = f.safeApply(s - h);
-            double right = f.safeApply(s + h);
+            Double left = f.safeApply(s - h);
+            Double right = f.safeApply(s + h);
 
             // skip if one of values is invalid
             if (!Double.isFinite(left) || !Double.isFinite(right) ||
@@ -304,11 +418,11 @@ public class CommandIntegral extends UserCommand {
                 continue;
             }
 
-            double absL = Math.abs(left);
-            double absR = Math.abs(right);
+            Double absL = Math.abs(left);
+            Double absR = Math.abs(right);
 
             // modules close to each other
-            double maxAbs = Math.max(absL, absR);
+            Double maxAbs = Math.max(absL, absR);
             boolean modulusClose = Math.abs(absL - absR) < 0.15 * maxAbs;
 
             // opposite signs
@@ -325,11 +439,11 @@ public class CommandIntegral extends UserCommand {
 
     // ===IMPROPER INTEGRAL ====
 
-    private static double safeTestIntegrate(Func1D f, double start, double end) {
+    private static Double safeTestIntegrate(Func1D f, Double start, Double end) {
         if (start >= end) return 0.0;
         try {
             // test
-            double res = MathematicsLab3.trapezoid(f, start, end, 512);
+            Double res = MathematicsLab3.trapezoid(f, start, end, 512);
             if (Double.isNaN(res) || Double.isInfinite(res)) {
                 return 1e15;
             }
@@ -349,15 +463,15 @@ public class CommandIntegral extends UserCommand {
         }
     }
 
-    private static ImproperCheckResult checkImproperIntegral(Func1D f, double a, double b) {
-        final double sigma = 1e-9;
+    private static ImproperCheckResult checkImproperIntegral(Func1D f, Double a, Double b) {
+        final Double sigma = 1e-9;
 
         // проверка a
-        double testY = f.safeApply(a + 1e-7);
+        Double testY = f.safeApply(a + 1e-7);
         if (Double.isNaN(testY) || Double.isInfinite(testY) || Math.abs(testY) > 10.0) {
             // Вычисляем площадь "далеко" и "близко" к разрыву
-            double areaFar = safeTestIntegrate(f, a + 0.001, a + 0.1);
-            double areaNear = safeTestIntegrate(f, a + sigma, a + 0.001);
+            Double areaFar = safeTestIntegrate(f, a + 0.001, a + 0.1);
+            Double areaNear = safeTestIntegrate(f, a + sigma, a + 0.001);
 
             // Если обе площади конечны и "близкая" не слишком больше "далёкой"
             if (Double.isFinite(areaFar) && Double.isFinite(areaNear)) {
@@ -368,10 +482,10 @@ public class CommandIntegral extends UserCommand {
         }
 
         // проверка b
-        double testYb = f.safeApply(b - 1e-7);
+        Double testYb = f.safeApply(b - 1e-7);
         if (Double.isNaN(testYb) || Double.isInfinite(testYb) || Math.abs(testYb) > 10.0) {
-            double areaFar = safeTestIntegrate(f, b - 0.1, b - 0.001);
-            double areaNear = safeTestIntegrate(f, b - 0.001, b - sigma);
+            Double areaFar = safeTestIntegrate(f, b - 0.1, b - 0.001);
+            Double areaNear = safeTestIntegrate(f, b - 0.001, b - sigma);
 
             if (Double.isFinite(areaFar) && Double.isFinite(areaNear)) {
                 if (areaNear < areaFar * 20.0) {
@@ -384,7 +498,94 @@ public class CommandIntegral extends UserCommand {
         return new ImproperCheckResult(false, null);
     }
 
+    private static int getMethodOrder(String method) {
+        return switch (method.toLowerCase()) {
+            case "leftrectangles", "rightrectangles", "middlerectangles" -> 2; // прямоугольники: ошибка ~1/n²
+            case "trapezoid" -> 2;  // трапеции: ошибка ~1/n²
+            case "simpsons" -> 4;   // Симпсон: ошибка ~1/n⁴
+            default -> 2;           // по умолчанию считаем 2
+        };
+    }
 
+    private static Double calculateByMethodName(String method, Func1D f, Double a, Double b, int n) {
+        return switch (method.toLowerCase()) {
+            case "leftrectangles" -> MathematicsLab3.leftRectangles(f, a, b, n);
+            case "rightrectangles" -> MathematicsLab3.rightRectangles(f, a, b, n);
+            case "middlerectangles" -> MathematicsLab3.middleRectangles(f, a, b, n);
+            case "simpsons" -> MathematicsLab3.simpsons(f, a, b, n); // если реализован
+            default -> MathematicsLab3.trapezoid(f, a, b, n);
+        };
+    }
+
+    private static class IntegrationResult {
+        final Double value;   // значение интеграла
+        final int n;          // использованное количество шагов
+        final Double error;   // оценённая погрешность
+        final String message; // статус: "Успешно" или предупреждение
+
+        IntegrationResult(Double value, int n, Double error, String message) {
+            this.value = value;
+            this.n = n;
+            this.error = error;
+            this.message = message;
+        }
+    }
+
+    private static IntegrationResult integrateRungeSafe(String method, Func1D f, Double a, Double b, Double eps) {
+
+        if (a >= b) {
+            return new IntegrationResult(0.0, 0, 0.0, "Недопустимые границы");
+        }
+
+        int n = 4;  // start interval amount
+        Double i0 = calculateByMethodName(method, f, a, b, n / 2);
+        Double i1;
+        int k = getMethodOrder(method);
+        Double error;
+        final int MAX_N = 2_097_152;
+
+        do {
+            i1 = calculateByMethodName(method, f, a, b, n);
+
+            // invalid values check
+            if (Double.isNaN(i1) || Double.isInfinite(i1)) {
+                return new IntegrationResult(Double.NaN, n, Double.POSITIVE_INFINITY,
+                        "Ошибка: получено бесконечное значение");
+            }
+
+            // Runge formula
+            Double denominator = Math.pow(2.0, k) - 1.0;
+            error = Math.abs(i1 - i0) / denominator;
+
+            i0 = i1;
+            n *= 2;  // double interval amount
+
+        } while (error > eps && n <= MAX_N);
+
+        String status = (error > eps)
+                ? "Предупреждение: точность не достигнута (погрешность=" + String.format("%.2e", error) + ")"
+                : "Успешно";
+
+        return new IntegrationResult(i1, n / 2, error, status);
+    }
+
+    private static IntegrationResult integrateImproper(String method, Func1D f, Double a, Double b,
+                                                       Double pole, Double eps) {
+        final Double sigma = 1e-10;  // min offset
+
+        // move border if pole is the same
+        Double newA = (Math.abs(pole - a) < 1e-6) ? a + sigma : a;
+        Double newB = (Math.abs(pole - b) < 1e-6) ? b - sigma : b;
+
+        IntegrationResult result = integrateRungeSafe(method, f, newA, newB, eps);
+
+        return new IntegrationResult(
+                result.value,
+                result.n,
+                result.error,
+                "Сходящийся несобственный интеграл (вычислен с отступом σ=" + sigma + ")"
+        );
+    }
 
     @Override
     public ApplicationStatus showUsage(ParsedString parsedString) {

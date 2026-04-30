@@ -85,7 +85,7 @@ public class Core extends AbstractCore {
         this.commandManager.register(new CommandIntegral("integral", "use rectangles method", scriptManager));
 
         //this.commandManager.register(new CommandExecuteScript("execute_script", "some description here", commandManager, scriptManager));
-        this.commandManager.register(new CommandAdd("add", "add an object to collection", networking, scriptManager));
+        //this.commandManager.register(new CommandAdd("add", "add an object to collection", networking, scriptManager));
         //this.commandManager.register(new CommandShow("show", "show collection's elements", networking));
         //this.commandManager.register(new CommandClear("clear", "clear collection elements", networking));
         //this.commandManager.register(new CommandUpdate("update", "update <id> | update values of selected collection by id", networking, scriptManager));
