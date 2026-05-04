@@ -12,10 +12,7 @@ import com.ssnagin.collectionmanager.reflection.Reflections;
 import com.ssnagin.collectionmanager.scripts.ScriptManager;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.TreeSet;
+import java.util.*;
 
 public class CommandIntegral extends UserCommand {
 
@@ -44,6 +41,7 @@ public class CommandIntegral extends UserCommand {
         functionsSet.add("1 / sqrt(|x|)");
         functionsSet.add("1 / x^2");
         functionsSet.add("1 / |x-1|^(2/3)");
+        functionsSet.add("1 / x");
     }
 
     @Override
@@ -85,6 +83,7 @@ public class CommandIntegral extends UserCommand {
                 case "1 / sqrt(|x|)" -> Functions.FUNC_6;
                 case "1 / x^2" -> Functions.FUNC_7;
                 case "1 / |x-1|^(2/3)" -> Functions.FUNC_8;
+                case "1 / x" -> Functions.FUNC_9;
                 default -> throw new IllegalArgumentException("Неизвестная функция: " + functionName);
             };
 
@@ -94,9 +93,15 @@ public class CommandIntegral extends UserCommand {
         }
 
         try {
+
             Lab3Form form = Reflections.parseModel(Lab3Form.class, scanner);
 
             ClientConsole.log(form);
+
+            for (var customCommand : commandSet) {
+                ClientConsole.log(" ==== " + customCommand + "====== ");
+                integrate(customCommand, function, form.getXStart(), form.getXEnd(), form.getEpsilon());
+            }
 
             return integrate(command, function, form.getXStart(), form.getXEnd(), form.getEpsilon());
 
@@ -163,8 +168,6 @@ public class CommandIntegral extends UserCommand {
         ClientConsole.log("Найдены особенности: " + activePoles.size() + " (" + weirdDots.size() + ") ");
 
 
-
-
         List<String> messages = new ArrayList<>();
         List<double[]> currentIntervals = new ArrayList<>();
         currentIntervals.add(new double[]{xStart, xEnd});
@@ -173,7 +176,7 @@ public class CommandIntegral extends UserCommand {
             boolean isAtA = Math.abs(pole - xStart) < 1e-6;
             boolean isAtB = Math.abs(pole - xEnd) < 1e-6;
 
-            // приколы на границах
+            // учет на границах
             if (isAtA || isAtB) {
                 ImproperCheckResult improper = checkImproperIntegral(function, xStart, xEnd);
                 if (improper.convergent) {
@@ -341,7 +344,7 @@ public class CommandIntegral extends UserCommand {
 
     public static List<Double> weirdDots(Func1D f, Double a, Double b) {
         List<Double> singularities = new ArrayList<>();
-        int steps = 50_000;
+        int steps = 50000;
         Double dx = (b - a) / steps;
         Double radius = 0.0001;
 
@@ -412,6 +415,7 @@ public class CommandIntegral extends UserCommand {
 
     private static boolean isCauchyPrincipalValuePoint(Func1D f, Double s) {
         int amount = 0;
+
         // Тестовые расстояния от точки разрыва
         double[] testPoints = {0.1, 0.05, 0.02, 0.01, 0.005};
 
@@ -445,7 +449,7 @@ public class CommandIntegral extends UserCommand {
         return amount >= 3;
     }
 
-    // ===IMPROPER INTEGRAL ====
+    // === IMPROPER INTEGRAL ====
 
     private static Double safeTestIntegrate(Func1D f, Double start, Double end) {
         if (start >= end) return 0.0;
@@ -526,10 +530,10 @@ public class CommandIntegral extends UserCommand {
     }
 
     private static class IntegrationResult {
-        final Double value;   // значение интеграла
-        final int n;          // использованное количество шагов
-        final Double error;   // оценённая погрешность
-        final String message; // статус: "Успешно" или предупреждение
+        final Double value; // значение интеграла
+        final int n; // использованное количество шагов
+        final Double error; // оценённая погрешность
+        final String message; // статус
 
         IntegrationResult(Double value, int n, Double error, String message) {
             this.value = value;
@@ -546,7 +550,7 @@ public class CommandIntegral extends UserCommand {
         Double i1;
         int k = getMethodOrder(method);
         Double error;
-        final int MAX_N = 2_097_152;
+        final int MAX_N = 2097152;
 
         do {
             i1 = calculateByMethodName(method, f, a, b, n);

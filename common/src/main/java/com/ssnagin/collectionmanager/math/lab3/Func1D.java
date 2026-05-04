@@ -11,18 +11,6 @@ public abstract class Func1D {
         }
     }
 
-    public double safeAbsApply(double x) {
-        try {
-            double y = apply(x);
-            if (Double.isNaN(y) || Double.isInfinite(y)) {
-                return Double.POSITIVE_INFINITY;
-            }
-            return Math.abs(y);
-        } catch (Exception e) {
-            return Double.POSITIVE_INFINITY;
-        }
-    }
-
     public abstract double derivative(double x);
 
     public abstract double secondDerivative(double x);

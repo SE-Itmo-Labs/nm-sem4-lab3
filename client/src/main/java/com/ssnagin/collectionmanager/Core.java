@@ -98,7 +98,7 @@ public class Core extends AbstractCore {
         //this.commandManager.register(new CommandLogout("logout", "Log out from the system", networking));
         //this.commandManager.register(new CommandRegister("register", "Register in the system", networking, scriptManager));
 
-        this.commandManager.register(new CommandShowGUI("gui", "show / hide gui", windowManager));
+        //this.commandManager.register(new CommandShowGUI("gui", "show / hide gui", windowManager));
     }
 
     private void registerGUIWindows() {

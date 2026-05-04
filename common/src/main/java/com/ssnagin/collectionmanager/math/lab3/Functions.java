@@ -203,6 +203,29 @@ public class Functions {
             return "1 / |x-1|^(2/3)";
         }
     };
+
+    public static final Func1D FUNC_9 = new Func1D() {
+
+        @Override
+        public double apply(double x) {
+            return 1 / x;
+        }
+
+        @Override
+        public double derivative(double x) {
+            return 0;
+        }
+
+        @Override
+        public double secondDerivative(double x) {
+            return 0;
+        }
+
+        @Override
+        public String description() {
+            return "1 / x";
+        }
+    };
 }
 
 /*
