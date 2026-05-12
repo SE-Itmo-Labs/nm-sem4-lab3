@@ -42,17 +42,9 @@ nm-sem4-lab3/
 │   │                   │   │   └── InfoAlert.class
 │   │                   │   ├── commands
 │   │                   │   │   ├── commands
-│   │                   │   │   │   ├── GUICommandAdd.class
-│   │                   │   │   │   ├── GUICommandAuth.class
-│   │                   │   │   │   ├── GUICommandClear.class
-│   │                   │   │   │   ├── GUICommandCountMembersById.class
 │   │                   │   │   │   ├── GUICommandExecuteScript.class
 │   │                   │   │   │   ├── GUICommandHelp.class
-│   │                   │   │   │   ├── GUICommandHistory.class
-│   │                   │   │   │   ├── GUICommandLogout.class
-│   │                   │   │   │   ├── GUICommandRandom.class
-│   │                   │   │   │   ├── GUICommandRemoveById.class
-│   │                   │   │   │   └── GUICommandShow.class
+│   │                   │   │   │   └── GUICommandHistory.class
 │   │                   │   │   ├── GUICommand.class
 │   │                   │   │   ├── GUICommandManager.class
 │   │                   │   │   └── GUINetworkCommand.class
@@ -89,17 +81,9 @@ nm-sem4-lab3/
 │   │                   │   ├── gif
 │   │                   │   │   ├── hello_duck.gif
 │   │                   │   │   └── info.gif
-│   │                   │   ├── command_add.png
-│   │                   │   ├── command_add_if_min.png
-│   │                   │   ├── command_clear.png
-│   │                   │   ├── command_count_members_by_id.png
 │   │                   │   ├── command_execute_script.png
 │   │                   │   ├── command_help.png
 │   │                   │   ├── command_history.png
-│   │                   │   ├── command_login.png
-│   │                   │   ├── command_random.png
-│   │                   │   ├── command_remove_by_id.png
-│   │                   │   ├── command_update.png
 │   │                   │   └── duck.png
 │   │                   ├── locales
 │   │                   │   ├── LangLocalesAdapter.class
@@ -145,17 +129,9 @@ nm-sem4-lab3/
 │   │       │               │   │   └── InfoAlert.java
 │   │       │               │   ├── commands
 │   │       │               │   │   ├── commands
-│   │       │               │   │   │   ├── GUICommandAdd.java
-│   │       │               │   │   │   ├── GUICommandAuth.java
-│   │       │               │   │   │   ├── GUICommandClear.java
-│   │       │               │   │   │   ├── GUICommandCountMembersById.java
 │   │       │               │   │   │   ├── GUICommandExecuteScript.java
 │   │       │               │   │   │   ├── GUICommandHelp.java
-│   │       │               │   │   │   ├── GUICommandHistory.java
-│   │       │               │   │   │   ├── GUICommandLogout.java
-│   │       │               │   │   │   ├── GUICommandRandom.java
-│   │       │               │   │   │   ├── GUICommandRemoveById.java
-│   │       │               │   │   │   └── GUICommandShow.java
+│   │       │               │   │   │   └── GUICommandHistory.java
 │   │       │               │   │   ├── GUICommand.java
 │   │       │               │   │   ├── GUICommandManager.java
 │   │       │               │   │   └── GUINetworkCommand.java
@@ -211,17 +187,9 @@ nm-sem4-lab3/
 │   │                       │   ├── gif
 │   │                       │   │   ├── hello_duck.gif
 │   │                       │   │   └── info.gif
-│   │                       │   ├── command_add.png
-│   │                       │   ├── command_add_if_min.png
-│   │                       │   ├── command_clear.png
-│   │                       │   ├── command_count_members_by_id.png
 │   │                       │   ├── command_execute_script.png
 │   │                       │   ├── command_help.png
 │   │                       │   ├── command_history.png
-│   │                       │   ├── command_login.png
-│   │                       │   ├── command_random.png
-│   │                       │   ├── command_remove_by_id.png
-│   │                       │   ├── command_update.png
 │   │                       │   └── duck.png
 │   │                       └── locales
 │   │                           ├── lc.properties
@@ -509,6 +477,213 @@ README.md
 
 
 
+client/bin/main/com/ssnagin/collectionmanager/fxml/main.fxml
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ssnagin.collectionmanager.gui.controllers.controllers.MainGUIController">
+   <top>]
+       <HBox prefHeight="70.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+
+       </HBox>
+<!--      <HBox prefHeight="70.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">-->
+<!--         <children>-->
+<!--            <ImageView fx:id="helpCommandButton" fitHeight="60.0" fitWidth="300.0" onMouseClicked="#initialize" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_help.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="addCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_add.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="addIfMinCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="210.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_add_if_min.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="updateCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="210.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_update.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="removeByIdCommand" fitHeight="60.0" fitWidth="200.0" layoutX="200.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_remove_by_id.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <Line endX="-100.0" endY="70.0" startX="-100.0" />-->
+<!--            <ImageView fx:id="clearCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="295.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_clear.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--               <HBox.margin>-->
+<!--                  <Insets />-->
+<!--               </HBox.margin>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="countByNumberOfParticipantsButton" fitHeight="60.0" fitWidth="200.0" layoutX="401.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_count_members_by_id.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="executeScriptCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="496.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_execute_script.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="historyCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="523.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_history.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="randomCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="605.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_random.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <HBox alignment="TOP_RIGHT" prefHeight="71.0" prefWidth="673.0" spacing="50.0">-->
+<!--               <children>-->
+<!--                  <ImageView fx:id="loginCommandButton" fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                     <image>-->
+<!--                        <Image url="@../img/command_login.png" />-->
+<!--                     </image>-->
+<!--                     <cursor>-->
+<!--                        <Cursor fx:constant="HAND" />-->
+<!--                     </cursor>-->
+<!--                     <HBox.margin>-->
+<!--                        <Insets left="50.0" />-->
+<!--                     </HBox.margin>-->
+<!--                  </ImageView>-->
+<!--                  <VBox fx:id="logoutBarPane" prefHeight="71.0" prefWidth="415.0">-->
+<!--                     <children>-->
+<!--                        <Label fx:id="welcomeLabel" prefHeight="34.0" prefWidth="179.0" text="" textFill="WHITE">-->
+<!--                           <font>-->
+<!--                              <Font name="Arial" size="12.0" />-->
+<!--                           </font>-->
+<!--                        </Label>-->
+<!--                        <Button fx:id="logoutCommandButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="ВЫЙТИ" />-->
+<!--                     </children>-->
+<!--                     <HBox.margin>-->
+<!--                        <Insets left="50.0" />-->
+<!--                     </HBox.margin>-->
+<!--                  </VBox>-->
+<!--               </children>-->
+<!--            </HBox>-->
+<!--         </children>-->
+<!--         <padding>-->
+<!--            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />-->
+<!--         </padding>-->
+<!--      </HBox>-->
+   </top>
+   <center>
+
+<!--      <TableView fx:id="mainTableView" prefHeight="529.0" prefWidth="1039.0" BorderPane.alignment="CENTER">-->
+<!--         <columns>-->
+<!--&lt;!&ndash;            <TableColumn fx:id="localIdColumn" prefWidth="100.0" text="No." />&ndash;&gt;-->
+<!--            <TableColumn fx:id="idColumn" prefWidth="100.0" text="ID" />-->
+<!--&lt;!&ndash;            <TableColumn fx:id="ownedUsernameColumn" prefWidth="100.0" text="Owned username" />&ndash;&gt;-->
+
+<!--            <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Name" />-->
+
+<!--            <TableColumn fx:id="coordXColumn" prefWidth="100.0" text="Coord X" />-->
+<!--            <TableColumn fx:id="coordYColumn" prefWidth="100.0" text="Coord Y" />-->
+
+<!--            <TableColumn fx:id="participantsColumn" prefWidth="150.0" text="Participants" />-->
+<!--            <TableColumn fx:id="singlesColumn" prefWidth="100.0" text="Singles" />-->
+
+<!--&lt;!&ndash;            <TableColumn fx:id="bestAlbumIdColumn" prefWidth="100.0" text="Best Album ID" />&ndash;&gt;-->
+<!--            <TableColumn fx:id="bestAlbumNameColumn" prefWidth="100.0" text="Best Album Name" />-->
+<!--            <TableColumn fx:id="bestAlbumTracksColumn" prefWidth="100.0" text="Best Album Tracks" />-->
+
+<!--            <TableColumn fx:id="genreColumn" prefWidth="150.0" text="Genre" />-->
+<!--         </columns>-->
+<!--      </TableView>-->
+   </center>
+   <bottom>
+<!--      <HBox id="animation" fx:id="animationArea" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">-->
+<!--         <children>-->
+<!--            <ImageView id="animation" fitHeight="70.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/duck.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--            <ImageView id="animation" fitHeight="70.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/duck.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--            <ImageView id="animation" fitHeight="70.0" fitWidth="200.0" layoutX="105.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/duck.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--            <ImageView id="animation" fitHeight="70.0" fitWidth="200.0" layoutX="200.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/duck.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--            <ImageView id="animation" fitHeight="70.0" fitWidth="200.0" layoutX="295.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/duck.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--         </children>-->
+<!--         <padding>-->
+<!--            <Insets top="10.0" />-->
+<!--         </padding></HBox>-->
+   </bottom>
+   <left>
+<!--      <VBox minHeight="100.0" minWidth="-Infinity" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">-->
+<!--         <Label text="Языки" textFill="WHITE">-->
+<!--            <font>-->
+<!--               <Font name="System Bold" size="23.0" />-->
+<!--            </font></Label>-->
+<!--         <Button fx:id="languageRussianButton" text="Русский" />-->
+<!--         <Button fx:id="languageEnglishButton" text="English (Ireland)" />-->
+<!--         <Button fx:id="languageGermanButton" text="Deutsch" />-->
+<!--         <Button fx:id="languageBulgarianButton" text="Болгарский" />-->
+<!--         <TextArea fx:id="leftTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" promptText="Some text will be placed here..." />-->
+
+<!--      </VBox>-->
+   </left>
+</BorderPane>
+
+
+
 client/build.gradle.kts
 
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
@@ -604,7 +779,7 @@ public class Client {
 
     public static void main(String[] args) {
 
-        System.setErr(new PrintStream(new NullOutputStream())); // убрать в релизе
+        // System.setErr(new PrintStream(new NullOutputStream())); // убрать в релизе
 
         Core core = Core.getInstance();
         core.setArgs(args);
@@ -2356,404 +2531,6 @@ public abstract class GUINetworkCommand extends GUICommand {
 
 
 
-client/src/main/java/com/ssnagin/collectionmanager/gui/commands/commands/GUICommandAdd.java
-
-package com.ssnagin.collectionmanager.gui.commands.commands;
-
-import com.ssnagin.collectionmanager.collection.model.Album;
-import com.ssnagin.collectionmanager.collection.model.Coordinates;
-import com.ssnagin.collectionmanager.collection.model.MusicBand;
-import com.ssnagin.collectionmanager.collection.model.MusicGenre;
-import com.ssnagin.collectionmanager.collection.wrappers.LocalDateWrapper;
-import com.ssnagin.collectionmanager.events.EventType;
-import com.ssnagin.collectionmanager.gui.alert.InfoAlert;
-import com.ssnagin.collectionmanager.gui.commands.GUINetworkCommand;
-import com.ssnagin.collectionmanager.gui.nodes.form.GUIForm;
-import com.ssnagin.collectionmanager.gui.nodes.form.GUIFormWithLogs;
-import com.ssnagin.collectionmanager.gui.window.WindowManager;
-import com.ssnagin.collectionmanager.inputparser.ParsedString;
-import com.ssnagin.collectionmanager.networking.Networking;
-import com.ssnagin.collectionmanager.networking.ResponseStatus;
-import com.ssnagin.collectionmanager.networking.data.client.ClientRequest;
-import com.ssnagin.collectionmanager.networking.data.server.ServerResponse;
-import com.ssnagin.collectionmanager.networking.wrappers.SessionClientRequest;
-import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-
-
-import java.io.IOException;
-import java.util.List;
-
-public class GUICommandAdd extends GUINetworkCommand {
-
-    WindowManager windowManager;
-
-    public GUICommandAdd(String name, Networking networking, WindowManager windowManager) {
-        super(name, networking);
-
-        this.windowManager = windowManager;
-    }
-
-    public void executeCommand(MouseEvent event) {
-        windowManager.get("add").show();
-    }
-
-    public void executeCommand(MouseEvent event, GUIForm form) {
-        ParsedString parsedString = new ParsedString(form.getName());
-        parsedString.setCommand(form.getName());
-
-        if (form instanceof GUIFormWithLogs) {
-            setOutputText(((GUIFormWithLogs) form).getLogArea());
-        }
-
-        List<Node> argsList = form.getFields();
-        MusicBand musicBand = new MusicBand();
-
-        try {
-            musicBand.setName(((TextField) argsList.get(0)).getText());
-
-            musicBand.setCoordinates(
-                    new Coordinates(
-                            Long.parseLong(((TextField) argsList.get(1)).getText()),
-                            Integer.parseInt(((TextField) argsList.get(2)).getText())
-                    )
-            );
-            musicBand.setNumberOfParticipants(
-                    Long.parseLong(((TextField) argsList.get(3)).getText())
-            );
-
-            musicBand.setSinglesCount(
-                    Integer.parseInt(((TextField) argsList.get(4)).getText())
-            );
-
-            musicBand.setGenre(
-                    (MusicGenre) ((ComboBox<?>) argsList.get(5)).getValue()
-            );
-
-            musicBand.setBestAlbum(
-                    new Album(
-                            ((TextField) argsList.get(6)).getText(),
-                            Long.parseLong(((TextField) argsList.get(7)).getText())
-                    )
-            );
-
-            musicBand = new LocalDateWrapper(musicBand);
-
-            if (parsedString.getCommand().equals("update")) {
-                executeUpdateCommand(parsedString, musicBand);
-                return;
-            }
-
-            SessionClientRequest request = new SessionClientRequest(
-                    new ClientRequest(
-                        parsedString, musicBand
-                    ),
-                    sessionKeyManager.getSessionKey()
-            );
-
-            ServerResponse serverResponse = networking.sendClientRequest(request);
-
-            out(serverResponse.getMessage());
-
-            eventManager.publish(EventType.COLLECTION_DATA_CHANGED.toString(), null);
-
-        } catch (IllegalArgumentException | IOException | ClassNotFoundException e) {
-            out(e.getMessage());
-        }
-    }
-
-    private void executeUpdateCommand(ParsedString parsedString, MusicBand musicBand) {
-        Integer stage;
-
-        Long idToChange = InfoAlert.showAndWait(
-                "Введите число (Long)",
-                "Пожалуйста, введите целое число",
-                "Число для ввода:"
-        );
-        if (idToChange == null) return;
-        parsedString.addArgument(idToChange.toString());
-
-        musicBand.setId(idToChange);
-
-        try {
-            ServerResponse serverResponse = networking.sendClientRequest(
-                new SessionClientRequest(
-                    new ClientRequest(
-                            parsedString, idToChange, 1
-                    ),
-                    sessionKeyManager.getSessionKey()
-                )
-            );
-
-            if (serverResponse.getResponseStatus() != ResponseStatus.OK) {
-                out(serverResponse.getMessage());
-                return;
-            }
-
-            stage = serverResponse.getStage();
-
-            serverResponse = this.networking.sendClientRequest(
-                    new SessionClientRequest(
-                            new ClientRequest(
-                                    parsedString,
-                                    musicBand,
-                                    stage
-                            ),
-                            sessionKeyManager.getSessionKey()
-                    )
-            );
-
-            out(serverResponse.getMessage());
-
-            eventManager.publish(EventType.COLLECTION_DATA_CHANGED.toString(), null);
-
-        } catch (IOException | ClassNotFoundException e) {
-            out(e.getMessage());
-        }
-    }
-}
-
-
-
-client/src/main/java/com/ssnagin/collectionmanager/gui/commands/commands/GUICommandAuth.java
-
-package com.ssnagin.collectionmanager.gui.commands.commands;
-
-import com.ssnagin.collectionmanager.events.EventType;
-import com.ssnagin.collectionmanager.gui.nodes.form.GUIForm;
-import com.ssnagin.collectionmanager.gui.nodes.form.GUIFormWithLogs;
-import com.ssnagin.collectionmanager.gui.commands.GUINetworkCommand;
-import com.ssnagin.collectionmanager.gui.window.WindowManager;
-import com.ssnagin.collectionmanager.inputparser.ParsedString;
-import com.ssnagin.collectionmanager.networking.Networking;
-import com.ssnagin.collectionmanager.networking.data.client.ClientRequest;
-import com.ssnagin.collectionmanager.networking.data.server.ServerResponse;
-import com.ssnagin.collectionmanager.session.SessionKey;
-import com.ssnagin.collectionmanager.user.objects.User;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-
-public class GUICommandAuth extends GUINetworkCommand {
-
-    WindowManager windowManager;
-
-    public GUICommandAuth(String name, Networking networking, WindowManager windowManager) {
-        super(name, networking);
-
-        this.windowManager = windowManager;
-    }
-
-    public void executeCommand(MouseEvent event) {
-        windowManager.get("auth").show();
-    }
-
-    public void executeCommand(MouseEvent event, GUIForm form) {
-        ParsedString emulatedCommand = new ParsedString("login", "login");
-
-        if (form.getName().equals("auth")) authenticateUser(emulatedCommand, form);
-        if (form.getName().equals("register")) {
-            emulatedCommand.setCommand("register");
-            registerUser(emulatedCommand, form);
-        }
-    }
-
-    /*
-    0 - Login Field
-    1 - Password Field
-     */
-    protected void authenticateUser(ParsedString parsedString, GUIForm form) {
-
-        if (form instanceof GUIFormWithLogs) {
-            setOutputText(((GUIFormWithLogs) form).getLogArea());
-        }
-
-        TextField loginField = (TextField) form.getFields().get(0);
-        TextField passwordField = (TextField) form.getFields().get(1);
-
-        User user = new User();
-        user.setUsername(loginField.getText());
-        user.setPassword(passwordField.getText().toCharArray());
-        user.setId(0L);
-        user.setIsBanned(0);
-
-
-        ClientRequest clientRequest = new ClientRequest(
-                parsedString,
-                user
-        );
-
-        try {
-            ServerResponse serverResponse = this.networking.sendClientRequest(clientRequest);
-
-            SessionKey sessionKey = (SessionKey) serverResponse.getData();
-
-            sessionKeyManager.setSessionKey(sessionKey);
-
-            out(serverResponse.getMessage());
-
-            eventManager.publish(EventType.USER_LOGGED_IN.toString(), user);
-        } catch (IOException | ClassNotFoundException e) {
-            out(e.getMessage());
-        }
-    }
-
-    protected void registerUser(ParsedString parsedString, GUIForm form) {
-        if (form instanceof GUIFormWithLogs) {
-            setOutputText(((GUIFormWithLogs) form).getLogArea());
-        }
-
-        TextField loginField = (TextField) form.getFields().get(0);
-        TextField passwordField = (TextField) form.getFields().get(1);
-
-        User user = new User();
-        user.setUsername(loginField.getText());
-        user.setPassword(passwordField.getText().toCharArray());
-        user.setId(0L);
-        user.setIsBanned(0);
-
-        try {
-            ServerResponse response = this.networking.sendClientRequest(
-                    new ClientRequest(parsedString, user)
-            );
-
-            out(response.getMessage());
-
-            eventManager.publish(EventType.USER_REGISTERED.toString(), user);
-
-        } catch (IOException | ClassNotFoundException e) {
-            out(e.getMessage());
-        }
-    }
-}
-
-
-
-client/src/main/java/com/ssnagin/collectionmanager/gui/commands/commands/GUICommandClear.java
-
-package com.ssnagin.collectionmanager.gui.commands.commands;
-
-import com.ssnagin.collectionmanager.console.ClientConsole;
-import com.ssnagin.collectionmanager.events.EventType;
-import com.ssnagin.collectionmanager.gui.alert.InfoAlert;
-import com.ssnagin.collectionmanager.gui.commands.GUINetworkCommand;
-import com.ssnagin.collectionmanager.inputparser.ParsedString;
-import com.ssnagin.collectionmanager.networking.Networking;
-import com.ssnagin.collectionmanager.networking.data.client.ClientRequest;
-import com.ssnagin.collectionmanager.networking.data.server.ServerResponse;
-import com.ssnagin.collectionmanager.networking.wrappers.SessionClientRequest;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
-
-import java.io.IOException;
-
-public class GUICommandClear extends GUINetworkCommand {
-    public GUICommandClear(String name, Networking networking, TextArea textArea) {
-        super(name, networking);
-
-        setOutputText(textArea);
-    }
-
-
-    public void executeCommand(MouseEvent event) {
-        boolean execute = InfoAlert.showConfirmationAlert(
-                "Подтверждение",
-                "Вы уверены что хотите стереть всё с лица Земли? (отчистить коллекцию)",
-                "Это действие нельзя будет отменить."
-        );
-
-        if (!execute) return;
-
-        ServerResponse response = null;
-        try {
-            response = this.networking.sendClientRequest(
-                    new SessionClientRequest(
-                            new ClientRequest(new ParsedString("clear", "clear", "")),
-                            sessionKeyManager.getSessionKey()
-                    )
-            );
-        } catch (IOException | ClassNotFoundException e) {
-            out(e.getMessage());
-        }
-
-        if (response == null) return;
-
-        out(response.getData() + " " + response.getMessage());
-
-        // Кидаем event на обновление данных таблицы
-        eventManager.publish(EventType.COLLECTION_DATA_CHANGED.toString(), null);
-    }
-}
-
-
-
-client/src/main/java/com/ssnagin/collectionmanager/gui/commands/commands/GUICommandCountMembersById.java
-
-package com.ssnagin.collectionmanager.gui.commands.commands;
-
-import com.ssnagin.collectionmanager.gui.alert.InfoAlert;
-import com.ssnagin.collectionmanager.gui.commands.GUINetworkCommand;
-import com.ssnagin.collectionmanager.gui.window.WindowManager;
-import com.ssnagin.collectionmanager.inputparser.ParsedString;
-import com.ssnagin.collectionmanager.networking.Networking;
-import com.ssnagin.collectionmanager.networking.data.client.ClientRequest;
-import com.ssnagin.collectionmanager.networking.data.server.ServerResponse;
-import com.ssnagin.collectionmanager.networking.wrappers.SessionClientRequest;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
-
-import java.io.IOException;
-
-
-public class GUICommandCountMembersById extends GUINetworkCommand {
-
-    private WindowManager windowManager;
-
-    private final String TEMP_COMMAND_NAME = "count_by_number_of_participants";
-
-    public GUICommandCountMembersById(String name, Networking networking, TextArea textArea) {
-        super(name, networking);
-
-        setOutputText(textArea);
-    }
-
-    @Override
-    public void executeCommand(MouseEvent event) {
-        Long numberOfParticipants = InfoAlert.showAndWait(
-                "Введите число",
-                "Пожалуйста, введите целое число",
-                "Число для ввода:"
-        );
-        if (numberOfParticipants == null) return;
-
-        ServerResponse serverResponse = null;
-        try {
-            serverResponse = this.networking.sendClientRequest(
-                new SessionClientRequest(
-                        new ClientRequest(
-                            new ParsedString(TEMP_COMMAND_NAME, TEMP_COMMAND_NAME),
-                            numberOfParticipants
-                        ),
-                        sessionKeyManager.getSessionKey()
-                )
-            );
-
-            out(serverResponse.getMessage());
-
-        } catch (IOException | ClassNotFoundException e) {
-            out(e.getMessage());
-        }
-
-
-    }
-}
-
-
-
 client/src/main/java/com/ssnagin/collectionmanager/gui/commands/commands/GUICommandExecuteScript.java
 
 package com.ssnagin.collectionmanager.gui.commands.commands;
@@ -2907,226 +2684,6 @@ public class GUICommandHistory extends GUICommand {
             prepared.append(command.getName()).append("\n");
         }
         InfoAlert.showInfoAlert("History", "Недавние команды", prepared.toString());
-    }
-}
-
-
-
-client/src/main/java/com/ssnagin/collectionmanager/gui/commands/commands/GUICommandLogout.java
-
-package com.ssnagin.collectionmanager.gui.commands.commands;
-
-import com.ssnagin.collectionmanager.events.EventType;
-import com.ssnagin.collectionmanager.gui.alert.InfoAlert;
-import com.ssnagin.collectionmanager.gui.commands.GUINetworkCommand;
-import com.ssnagin.collectionmanager.networking.Networking;
-import javafx.scene.input.MouseEvent;
-
-public class GUICommandLogout extends GUINetworkCommand {
-
-    public GUICommandLogout(String name, Networking networking) {
-        super(name, networking);
-    }
-
-    public void executeCommand(MouseEvent event) {
-        sessionKeyManager.setSessionKey(null);
-
-        InfoAlert.showInfoAlert("Log out", "Successfully logged out!", "");
-
-        eventManager.publish(EventType.USER_LOGGED_OUT.toString(), null);
-    }
-
-}
-
-
-
-client/src/main/java/com/ssnagin/collectionmanager/gui/commands/commands/GUICommandRandom.java
-
-package com.ssnagin.collectionmanager.gui.commands.commands;
-
-import com.ssnagin.collectionmanager.events.EventType;
-import com.ssnagin.collectionmanager.gui.alert.InfoAlert;
-import com.ssnagin.collectionmanager.gui.commands.GUINetworkCommand;
-import com.ssnagin.collectionmanager.inputparser.ParsedString;
-import com.ssnagin.collectionmanager.networking.Networking;
-import com.ssnagin.collectionmanager.networking.data.client.ClientRequest;
-import com.ssnagin.collectionmanager.networking.data.server.ServerResponse;
-import com.ssnagin.collectionmanager.networking.wrappers.SessionClientRequest;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
-
-import java.io.IOException;
-
-public class GUICommandRandom extends GUINetworkCommand {
-
-    public GUICommandRandom(String name, Networking networking, TextArea textArea) {
-        super(name, networking);
-
-        setOutputText(textArea);
-    }
-
-    public void executeCommand(MouseEvent event) {
-        Long randomNum = InfoAlert.showAndWait(
-                "Введите число",
-                "Пожалуйста, введите целое число от 1 до 50",
-                "Число для ввода:"
-        );
-        if (randomNum == null) return;
-
-        try {
-            ServerResponse response = this.networking.sendClientRequest(
-                    new SessionClientRequest(
-                            new ClientRequest(
-                                    new ParsedString("random", "random", randomNum.toString()),
-                                    randomNum
-                            ),
-                            sessionKeyManager.getSessionKey()
-                    )
-            );
-
-            out(response.getMessage());
-
-            eventManager.publish(EventType.COLLECTION_DATA_CHANGED.toString(), null);
-        } catch (IOException | ClassNotFoundException e) {
-            out(e.getMessage());
-        }
-
-    }
-}
-
-
-
-client/src/main/java/com/ssnagin/collectionmanager/gui/commands/commands/GUICommandRemoveById.java
-
-package com.ssnagin.collectionmanager.gui.commands.commands;
-
-import com.ssnagin.collectionmanager.events.EventType;
-import com.ssnagin.collectionmanager.gui.alert.InfoAlert;
-import com.ssnagin.collectionmanager.gui.commands.GUINetworkCommand;
-import com.ssnagin.collectionmanager.inputparser.ParsedString;
-import com.ssnagin.collectionmanager.networking.Networking;
-import com.ssnagin.collectionmanager.networking.data.client.ClientRequest;
-import com.ssnagin.collectionmanager.networking.data.server.ServerResponse;
-import com.ssnagin.collectionmanager.networking.wrappers.SessionClientRequest;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
-
-import java.io.IOException;
-
-public class GUICommandRemoveById extends GUINetworkCommand {
-
-    public GUICommandRemoveById(String name, Networking networking, TextArea textArea) {
-        super(name, networking);
-
-        setOutputText(textArea);
-    }
-
-    @Override
-    public void executeCommand(MouseEvent event) {
-        Long idToRemove = InfoAlert.showAndWait(
-                "Удаление",
-                "Пожалуйста, введите целое число",
-                "Число для ввода:"
-        );
-        if (idToRemove == null) return;
-
-        ServerResponse serverResponse;
-
-        try {
-            serverResponse = this.networking.sendClientRequest(
-                    new SessionClientRequest(
-                            new ClientRequest(
-                                    new ParsedString("remove_by_id", "remove_by_id", idToRemove.toString()),
-                                    idToRemove
-                            ),
-                            sessionKeyManager.getSessionKey()
-                    )
-            );
-
-            out(serverResponse.getMessage());
-
-            eventManager.publish(EventType.COLLECTION_DATA_CHANGED.toString(), null);
-
-        } catch (IOException | ClassNotFoundException e) {
-            out(e.getMessage());
-        }
-
-
-    }
-}
-
-
-
-client/src/main/java/com/ssnagin/collectionmanager/gui/commands/commands/GUICommandShow.java
-
-package com.ssnagin.collectionmanager.gui.commands.commands;
-
-import com.ssnagin.collectionmanager.collection.model.MusicBand;
-import com.ssnagin.collectionmanager.console.ClientConsole;
-import com.ssnagin.collectionmanager.events.EventType;
-import com.ssnagin.collectionmanager.gui.commands.GUINetworkCommand;
-import com.ssnagin.collectionmanager.gui.nodes.table.main.GUITableMain;
-import com.ssnagin.collectionmanager.inputparser.ParsedString;
-import com.ssnagin.collectionmanager.networking.Networking;
-import com.ssnagin.collectionmanager.networking.ResponseStatus;
-import com.ssnagin.collectionmanager.networking.data.client.ClientRequest;
-import com.ssnagin.collectionmanager.networking.data.server.ServerResponse;
-import com.ssnagin.collectionmanager.networking.wrappers.SessionClientRequest;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.input.MouseEvent;
-
-import java.io.IOException;
-
-public class GUICommandShow extends GUINetworkCommand {
-
-    public GUICommandShow(String name, Networking networking) {
-        super(name, networking);
-    }
-
-    @Override
-    public void executeCommand(MouseEvent event) {
-        super.executeCommand(event);
-    }
-
-    public void executeCommand(GUITableMain table) {
-        ObservableList<MusicBand> musicBands = FXCollections.observableArrayList();
-
-        ServerResponse response;
-
-        ClientRequest clientRequest = new SessionClientRequest(
-                new ClientRequest(new ParsedString("show", "show"), 1L, 1),
-                sessionKeyManager.getSessionKey()
-        );
-
-        try {
-            response = this.networking.sendClientRequest(clientRequest);
-
-            clientRequest.setStage(100);
-
-            do {
-                response = this.networking.sendClientRequest(clientRequest);
-                clientRequest.setStage(response.getStage());
-
-                if (response.getResponseStatus() != ResponseStatus.OK) break;
-
-                if (response.getData() == null) break;
-                if (!(response.getData() instanceof MusicBand)) break;
-
-                var data = (MusicBand) response.getData();
-
-                musicBands.add(data);
-
-            } while (response.getStage() != 99 || response.getResponseStatus() == ResponseStatus.OK);
-
-            Platform.runLater(() -> {
-                table.getTableView().setItems(musicBands);
-                eventManager.publish(EventType.COLLECTION_DATA_LOADED.toString(), musicBands);
-            });
-        } catch (IOException | ClassNotFoundException e) {
-            ClientConsole.println("[ERROR] " + e.getMessage());
-        }
     }
 }
 
@@ -4414,6 +3971,213 @@ public class SessionKeyManager {
     @Getter
     private static SessionKeyManager instance = new SessionKeyManager();
 }
+
+
+
+client/src/main/resources/com/ssnagin/collectionmanager/fxml/main.fxml
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ssnagin.collectionmanager.gui.controllers.controllers.MainGUIController">
+   <top>]
+       <HBox prefHeight="70.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+
+       </HBox>
+<!--      <HBox prefHeight="70.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">-->
+<!--         <children>-->
+<!--            <ImageView fx:id="helpCommandButton" fitHeight="60.0" fitWidth="300.0" onMouseClicked="#initialize" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_help.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="addCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_add.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="addIfMinCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="210.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_add_if_min.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="updateCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="210.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_update.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="removeByIdCommand" fitHeight="60.0" fitWidth="200.0" layoutX="200.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_remove_by_id.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <Line endX="-100.0" endY="70.0" startX="-100.0" />-->
+<!--            <ImageView fx:id="clearCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="295.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_clear.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--               <HBox.margin>-->
+<!--                  <Insets />-->
+<!--               </HBox.margin>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="countByNumberOfParticipantsButton" fitHeight="60.0" fitWidth="200.0" layoutX="401.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_count_members_by_id.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="executeScriptCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="496.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_execute_script.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="historyCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="523.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_history.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="randomCommandButton" fitHeight="60.0" fitWidth="200.0" layoutX="605.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/command_random.png" />-->
+<!--               </image>-->
+<!--               <cursor>-->
+<!--                  <Cursor fx:constant="HAND" />-->
+<!--               </cursor>-->
+<!--            </ImageView>-->
+<!--            <HBox alignment="TOP_RIGHT" prefHeight="71.0" prefWidth="673.0" spacing="50.0">-->
+<!--               <children>-->
+<!--                  <ImageView fx:id="loginCommandButton" fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                     <image>-->
+<!--                        <Image url="@../img/command_login.png" />-->
+<!--                     </image>-->
+<!--                     <cursor>-->
+<!--                        <Cursor fx:constant="HAND" />-->
+<!--                     </cursor>-->
+<!--                     <HBox.margin>-->
+<!--                        <Insets left="50.0" />-->
+<!--                     </HBox.margin>-->
+<!--                  </ImageView>-->
+<!--                  <VBox fx:id="logoutBarPane" prefHeight="71.0" prefWidth="415.0">-->
+<!--                     <children>-->
+<!--                        <Label fx:id="welcomeLabel" prefHeight="34.0" prefWidth="179.0" text="" textFill="WHITE">-->
+<!--                           <font>-->
+<!--                              <Font name="Arial" size="12.0" />-->
+<!--                           </font>-->
+<!--                        </Label>-->
+<!--                        <Button fx:id="logoutCommandButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="ВЫЙТИ" />-->
+<!--                     </children>-->
+<!--                     <HBox.margin>-->
+<!--                        <Insets left="50.0" />-->
+<!--                     </HBox.margin>-->
+<!--                  </VBox>-->
+<!--               </children>-->
+<!--            </HBox>-->
+<!--         </children>-->
+<!--         <padding>-->
+<!--            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />-->
+<!--         </padding>-->
+<!--      </HBox>-->
+   </top>
+   <center>
+
+<!--      <TableView fx:id="mainTableView" prefHeight="529.0" prefWidth="1039.0" BorderPane.alignment="CENTER">-->
+<!--         <columns>-->
+<!--&lt;!&ndash;            <TableColumn fx:id="localIdColumn" prefWidth="100.0" text="No." />&ndash;&gt;-->
+<!--            <TableColumn fx:id="idColumn" prefWidth="100.0" text="ID" />-->
+<!--&lt;!&ndash;            <TableColumn fx:id="ownedUsernameColumn" prefWidth="100.0" text="Owned username" />&ndash;&gt;-->
+
+<!--            <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Name" />-->
+
+<!--            <TableColumn fx:id="coordXColumn" prefWidth="100.0" text="Coord X" />-->
+<!--            <TableColumn fx:id="coordYColumn" prefWidth="100.0" text="Coord Y" />-->
+
+<!--            <TableColumn fx:id="participantsColumn" prefWidth="150.0" text="Participants" />-->
+<!--            <TableColumn fx:id="singlesColumn" prefWidth="100.0" text="Singles" />-->
+
+<!--&lt;!&ndash;            <TableColumn fx:id="bestAlbumIdColumn" prefWidth="100.0" text="Best Album ID" />&ndash;&gt;-->
+<!--            <TableColumn fx:id="bestAlbumNameColumn" prefWidth="100.0" text="Best Album Name" />-->
+<!--            <TableColumn fx:id="bestAlbumTracksColumn" prefWidth="100.0" text="Best Album Tracks" />-->
+
+<!--            <TableColumn fx:id="genreColumn" prefWidth="150.0" text="Genre" />-->
+<!--         </columns>-->
+<!--      </TableView>-->
+   </center>
+   <bottom>
+<!--      <HBox id="animation" fx:id="animationArea" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">-->
+<!--         <children>-->
+<!--            <ImageView id="animation" fitHeight="70.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/duck.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--            <ImageView id="animation" fitHeight="70.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/duck.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--            <ImageView id="animation" fitHeight="70.0" fitWidth="200.0" layoutX="105.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/duck.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--            <ImageView id="animation" fitHeight="70.0" fitWidth="200.0" layoutX="200.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/duck.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--            <ImageView id="animation" fitHeight="70.0" fitWidth="200.0" layoutX="295.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../img/duck.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--         </children>-->
+<!--         <padding>-->
+<!--            <Insets top="10.0" />-->
+<!--         </padding></HBox>-->
+   </bottom>
+   <left>
+<!--      <VBox minHeight="100.0" minWidth="-Infinity" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">-->
+<!--         <Label text="Языки" textFill="WHITE">-->
+<!--            <font>-->
+<!--               <Font name="System Bold" size="23.0" />-->
+<!--            </font></Label>-->
+<!--         <Button fx:id="languageRussianButton" text="Русский" />-->
+<!--         <Button fx:id="languageEnglishButton" text="English (Ireland)" />-->
+<!--         <Button fx:id="languageGermanButton" text="Deutsch" />-->
+<!--         <Button fx:id="languageBulgarianButton" text="Болгарский" />-->
+<!--         <TextArea fx:id="leftTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" promptText="Some text will be placed here..." />-->
+
+<!--      </VBox>-->
+   </left>
+</BorderPane>
 
 
 
