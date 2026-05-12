@@ -23,7 +23,7 @@ public class Client {
 
     public static void main(String[] args) {
 
-        System.setErr(new PrintStream(new NullOutputStream())); // убрать в релизе
+        // System.setErr(new PrintStream(new NullOutputStream())); // убрать в релизе
 
         Core core = Core.getInstance();
         core.setArgs(args);

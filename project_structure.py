@@ -16,14 +16,14 @@ CODE_EXTENSIONS = {
     '.kt', '.kts', '.gradle', '.gradle.kts', '.http',
     'build.gradle', 'settings.gradle', 'gradle.properties',
     # React / TypeScript / Vite / Redux
-    '.ts', '.tsx', '.js', '.jsx',
+    # '.ts', '.tsx', '.js', '.jsx',
     '.json', '.yaml', '.yml', '.toml',
-    '.md', '.java',
+    '.md', '.java', '.fxml',
     '.env', '.env.local',
-    'vite.config.js', 'vite.config.ts',
+    # 'vite.config.js', 'vite.config.ts',
     'package.json', 'tsconfig.json', 'tsconfig.node.json',
     'webpack.config.js', 'babel.config.js',
-    '.gitignore', '.dockerignore',
+    # '.gitignore', '.dockerignore',
     'Dockerfile'
 }
 
