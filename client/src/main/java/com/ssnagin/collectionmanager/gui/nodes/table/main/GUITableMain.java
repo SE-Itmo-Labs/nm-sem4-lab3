@@ -57,27 +57,27 @@ public class GUITableMain extends GUITable<MusicBand> {
 //            currentLocalId = 1;
 //        });
 
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        coordXColumn.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getX()));
-
-        coordYColumn.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getY()));
-
-        participantsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfParticipants"));
-        singlesColumn.setCellValueFactory(new PropertyValueFactory<>("singlesCount"));
-
-        bestAlbumNameColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getBestAlbum().getName()));
-        bestAlbumTracksColumn.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getBestAlbum().getTracks()));
-
-        genreColumn.setCellValueFactory(cellData -> {
-            MusicGenre genre = cellData.getValue().getGenre();
-            return new SimpleStringProperty(genre != null ? genre.toString() : "");
-        });
+//        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+//        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+//
+//        coordXColumn.setCellValueFactory(cellData ->
+//                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getX()));
+//
+//        coordYColumn.setCellValueFactory(cellData ->
+//                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getY()));
+//
+//        participantsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfParticipants"));
+//        singlesColumn.setCellValueFactory(new PropertyValueFactory<>("singlesCount"));
+//
+//        bestAlbumNameColumn.setCellValueFactory(cellData ->
+//                new SimpleStringProperty(cellData.getValue().getBestAlbum().getName()));
+//        bestAlbumTracksColumn.setCellValueFactory(cellData ->
+//                new SimpleObjectProperty<>(cellData.getValue().getBestAlbum().getTracks()));
+//
+//        genreColumn.setCellValueFactory(cellData -> {
+//            MusicGenre genre = cellData.getValue().getGenre();
+//            return new SimpleStringProperty(genre != null ? genre.toString() : "");
+//        });
 
         setEventFilters();
     }
